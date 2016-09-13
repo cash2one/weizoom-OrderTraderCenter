@@ -25,7 +25,7 @@ from eaglet.core.exceptionutil import unicode_full_stack
 import logging
 
 import service
-from commands import service_register
+from service import service_register
 
 class DummyMessage():
 	receipt_handle = 'handle'

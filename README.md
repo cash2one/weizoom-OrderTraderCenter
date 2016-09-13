@@ -1,6 +1,6 @@
-**python-service-base —— python service的codebase**
+**用Python开发消息服务的codebase（基于阿里MNS消息服务）**
 
-# 如何使用
+# 安装必要组件
 
 安装peewee：
 ```

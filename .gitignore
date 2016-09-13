@@ -1,0 +1,6 @@
+*.pyc
+.idea
+.project
+.*~
+*.log
+peewee.db

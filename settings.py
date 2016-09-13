@@ -14,27 +14,23 @@ SERVICE_NAME = 'redmine-agent'
 DATABASES = {
     'default': {
         'ENGINE': 'mysql+retry',
-        'NAME': 'redagent',
-        'USER': 'redagent',
-        'PASSWORD': 'Weizoom!',
-        'HOST': 'db.redmine-agent.com',
+        'NAME': 'service',
+        'USER': 'service',
+        'PASSWORD': 'weizoom',
+        'HOST': 'db.serivce.com',
         'PORT': '',
         'CONN_MAX_AGE': 100
     },
-    'redmine': {
+    'other_db': {
         'ENGINE': 'mysql+retry',
-        'NAME': 'redmine',
-        'USER': 'root',                      
-        'PASSWORD': 'secret',
-        'HOST': 'db.redmine.com',
+        'NAME': 'other_db',
+        'USER': 'other_db',
+        'PASSWORD': 'weizoom',
+        'HOST': 'db.other_db.com',
         'PORT': '',
         'CONN_MAX_AGE': 100
     }
 }
-
-if 'develop' == MODE:
-    DATABASES['redmine']['HOST'] = 'ubuntu'
-    DATABASES['redmine']['PORT'] = '13314'
 
 
 MIDDLEWARES = [    
@@ -132,32 +128,18 @@ COMPONENT_INFO = {
 DEV_SERVER_MULTITHREADING = False
 
 if 'deploy' == MODE:
-    REDMINE_HOST = 'http://redmine.weizom.com:3000'
-    # 小微机器人
-    REDMINE_KEY = '553ef7b5b2c2271686f0c201a37e558f70d02f42'
-else:
-    # for development
-    REDMINE_HOST = 'http://ubuntu:3000'
-    REDMINE_KEY = '32047486b71e754465e42be5df84e546415dbd85'
-
-
-#DING_CREATE_USER_IF_NOT_EXIST = True
-#DING_DEFAULT_USER_PASSWORD = 'random_pass_54834875'
-# 钉钉API的CORP_ID
-DING_CORP_ID="ding0b2ce527846e5291" # 微众公司
-DING_CORP_SECRET ="krWUpmV0Qw2CogbSENLt_VdkS5w7p0in8ID02zSmBnPkN6WXiyNXSeaE4VHwv4D-"
-#HOST = "http://ftkpi.weapp.weizoom.com"
-
-if 'deploy' == MODE:
+    # 正式环境
     MNS_ACCESS_KEY_ID = 'LTAICKQ4rQBofAhF'
     MNS_ACCESS_KEY_SECRET = 'bPKU71c0cfrui4bWgGPO96tLiOJ0PZ'
-    MNS_ENDPOINT = 'http://1615750970594173.mns.cn-hangzhou.aliyuncs.com/'
+    # 华北2
+    MNS_ENDPOINT = 'http://1615750970594173.mns.cn-beijing.aliyuncs.com/'
     MNS_SECURITY_TOKEN = ''
-    SUBSCRIBE_QUEUE_NAME = 'redmine-agent'
+    SUBSCRIBE_QUEUE_NAME = 'test-queue'
 else:
+    # 测试环境
     MNS_ACCESS_KEY_ID = 'LTAICKQ4rQBofAhF'
     MNS_ACCESS_KEY_SECRET = 'bPKU71c0cfrui4bWgGPO96tLiOJ0PZ'
-    MNS_ENDPOINT = 'http://1615750970594173.mns.cn-hangzhou.aliyuncs.com/'
-    #MNS_ENDPOINT = 'http://1615750970594173.mns.cn-shanghai.aliyuncs.com/'
+    # 华北2
+    MNS_ENDPOINT = 'http://1615750970594173.mns.cn-beijing.aliyuncs.com/'
     MNS_SECURITY_TOKEN = ''
-    SUBSCRIBE_QUEUE_NAME = 'test-redmine-agent'
+    SUBSCRIBE_QUEUE_NAME = 'test-queue'

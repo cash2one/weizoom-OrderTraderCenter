@@ -24,8 +24,7 @@ from mns.subscription import *
 
 import time
 import service  # load all services
-import service_register
-
+from service import service_register
 
 
 
@@ -33,7 +32,7 @@ WAIT_SECONDS = 10
 SLEEP_SECONDS = 10
 
 class Command(BaseCommand):
-	help = "python manage.py customer_create_service"
+	help = "python manage.py service_runner"
 	args = ''
 
 	# topic-queue模型中的queue
@@ -61,7 +60,7 @@ class Command(BaseCommand):
 				# 处理消息(consume)
 				data = json.loads(recv_msg.message_body)
 				function_name = data['function']
-				func = service_register.SERVICE_LIST.get(function_name)
+				func = service_register.call_function(function_name)
 				if func:
 					try:
 						response = func(data['args'], recv_msg)
@@ -90,5 +89,4 @@ class Command(BaseCommand):
 				continue
 			except Exception as e:
 				print u"Exception: {}".format(unicode_full_stack())
-
 		return
