@@ -52,8 +52,7 @@ class Command(BaseCommand):
 
 			func_name = data['function']
 			logging.info("Function: {}".format(func_name))
-			logging.info(service_register.SERVICE_LIST)
-			func = service_register.SERVICE_LIST.get(func_name)
+			func = service_register.call_function(func_name)
 			logging.info("func: {}".format(func))
 
 			fake_msg = DummyMessage()

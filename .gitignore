@@ -4,3 +4,5 @@
 .*~
 *.log
 peewee.db
+README.html
+html/

@@ -17,7 +17,7 @@ DATABASES = {
         'NAME': 'service',
         'USER': 'service',
         'PASSWORD': 'weizoom',
-        'HOST': 'db.serivce.com',
+        'HOST': 'db.service.com',
         'PORT': '',
         'CONN_MAX_AGE': 100
     },

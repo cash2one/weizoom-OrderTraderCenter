@@ -1,5 +1,5 @@
 {
-	"function": "customer_news.add",
+	"function": "demo_order.process",
 	"args": {
 		"news": {
 			"author_username": "gaoliqi",
