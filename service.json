@@ -1,0 +1,4 @@
+{
+	"name": "redmine-agent",
+	"type": "python-service"
+}

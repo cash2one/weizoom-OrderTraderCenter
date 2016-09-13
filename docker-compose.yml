@@ -1,0 +1,25 @@
+agent:
+    # https://hub.docker.com/_/redmine/
+    #image: redmine
+    image: reg.weizzz.com:5000/wz/redmine-agent:1.0
+    volumes:
+        - ./web:/service
+    links:
+        - db:db.redmine-agent.com
+    external_links:
+        - redmine_mysql_1:db.redmine.com
+    #ports:
+    #    - "3000:3000"
+
+db:
+    image: reg.weizzz.com:5000/docker/mysql:5.7
+    volumes:
+        - ./mysql:/var/lib/mysql
+    ports:
+        - "127.0.0.1:13316:3306"
+    environment:
+        MYSQL_DATABASE: redagent
+        MYSQL_USER: redagent
+        MYSQL_PASSWORD:  Weizoom!
+        MYSQL_ROOT_PASSWORD: weizoom
+    command: ["--character-set-server=utf8"]

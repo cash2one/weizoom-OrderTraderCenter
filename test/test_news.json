@@ -1,0 +1,13 @@
+{
+	"function": "customer_news.add",
+	"args": {
+		"news": {
+			"author_username": "gaoliqi",
+			"author_name": "高立琦",
+			"title": "日志标题",
+			"summary": "日志摘要",
+			"description": "日志内容",
+			"customer_id": "wzc_123"
+		}
+	}
+}
