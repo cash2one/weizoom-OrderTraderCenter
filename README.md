@@ -2,14 +2,10 @@
 
 # 安装必要组件
 
-安装peewee：
 ```
 pip install -U "peewee==2.6.4"
-```
-
-安装插件：
-```
 pip install git+https://git2.weizzz.com:84/microservice/eaglet.git
+pip install -U git+https://git2.weizzz.com:84/microservice/mns_python_sdk.git
 ```
 
 生成API文档：
