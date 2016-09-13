@@ -1,4 +1,7 @@
 #coding: utf8
+"""
+可以作为other_db的示例
+"""
 from eaglet.core.db import models
 #import eaglet.peewee as peewee
 # from playhouse.db_url import connect
