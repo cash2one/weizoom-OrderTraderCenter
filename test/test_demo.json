@@ -1,6 +1,6 @@
 {
-	"function": "demo_order.process",
-	"args": {
+	"name": "demo_data",
+	"data": {
 		"news": {
 			"author_username": "gaoliqi",
 			"author_name": "高立琦",

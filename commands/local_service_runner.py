@@ -50,14 +50,14 @@ class Command(BaseCommand):
 			data = json.load(data_file)
 			logging.info("data: {}".format(data))
 
-			func_name = data['function']
-			logging.info("Function: {}".format(func_name))
-			func = service_register.call_function(func_name)
-			logging.info("func: {}".format(func))
+			msg_name = data['name']
+			logging.info("message name: {}".format(msg_name))
+			func = service_register.find_service(msg_name)
+			logging.info("service function: {}".format(func))
 
 			fake_msg = DummyMessage()
 			fake_msg.message_body = data
 			fake_msg.message_id = '0'
 		
-			func(data['args'], fake_msg)
+			func(data['data'], fake_msg)
 		return

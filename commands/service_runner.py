@@ -59,11 +59,11 @@ class Command(BaseCommand):
 
 				# 处理消息(consume)
 				data = json.loads(recv_msg.message_body)
-				function_name = data['function']
-				func = service_register.call_function(function_name)
+				function_name = data['name']
+				func = service_register.find_service(function_name)
 				if func:
 					try:
-						response = func(data['args'], recv_msg)
+						response = func(data['data'], recv_msg)
 						logging.info("service response: {}".format(response))
 
 						#只有正常才能删除消息，否则消息仍然在队列中

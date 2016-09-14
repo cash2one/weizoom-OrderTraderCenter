@@ -38,11 +38,11 @@ bash start_service.sh
 python manage.py local_service_runner test/test_demo.json
 ```
 
-> **Message(消息)**是JSON格式的，必须包括`function`和`args`两个字段。例如：
+> **Message(消息)**是JSON格式的，必须包括`name`和`data`两个字段。`name`为消息名，由小写字母及下划线(_)组成，简要描述此消息用途。`data`为参数，是dict类型数据。例如：
 > ```
 > {
->   "function": "function_name",
->   "args": {
+>   "name": "message_name",
+>   "data": {
 >       "key": "some_key",
 >       "value": "some_value"
 >      }

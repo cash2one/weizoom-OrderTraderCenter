@@ -8,7 +8,7 @@
 import logging
 from service.service_register import register
 
-@register("demo_order.process")
+@register("demo_data")
 def demo_order_process(data, recv_msg=None):
 	"""
 	演示接收消息
