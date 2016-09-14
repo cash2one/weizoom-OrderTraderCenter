@@ -1,4 +1,4 @@
-#用Python开发消息服务的codebase（基于阿里MNS消息服务）
+# 用Python开发消息服务的codebase（基于阿里MNS消息服务）
 
 # 安装必要组件
 
