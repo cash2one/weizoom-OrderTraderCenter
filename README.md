@@ -60,7 +60,6 @@ python manage.py local_service_runner test/test_demo.json
 #coding: utf8
 from service.service_register import register
 import logging
-
 @register("foo.process")
 def foo_process(data, recv_msg=None):
     """
