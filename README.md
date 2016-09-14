@@ -90,6 +90,10 @@ bash start_service.sh
 
     > 注意：部署线上环境时须修改`settings.py`参数（比如MODE='deploy'，MNS_*等参数）
 
+# 发送消息
+
+请参考[mns_python_sdk](https://git2.weizzz.com:84/microservice/mns_python_sdk)。
+
 
 # 生成API文档
 
