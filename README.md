@@ -18,7 +18,7 @@ mysql> GRANT ALL ON service.* TO 'service'@'%' IDENTIFIED BY 'weizoom';
 
 配置hosts文件：
 ```
-127.0.0.1   db.service.com
+127.0.0.1   db.dev.com
 ```
 
 # 启动service服务
@@ -28,7 +28,7 @@ python manage.py service_runner
 
 或者执行：
 ```
-bash start_service_runner.sh
+bash start_service.sh
 ```
 
 # 本地调试
