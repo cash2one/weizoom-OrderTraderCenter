@@ -36,6 +36,7 @@ DATABASES = {
 MIDDLEWARES = [    
     'eaglet.middlewares.debug_middleware.QueryMonitorMiddleware',
     'eaglet.middlewares.debug_middleware.RedisMiddleware',
+    'middleware.mns_middleware.NotificationsMiddleware',
 
     #账号信息中间件
     #'middleware.webapp_account_middleware.WebAppAccountMiddleware',
