@@ -30,6 +30,27 @@ def handler(data, recv_msg=None):
 
 但我们在mns-service-base中也引入了eaglet对数据库的支持，允许在特殊情况下直接访问数据库。再次强调：`**我们强烈建议不要在event service中直接访问数据库**`
 
+下面是使用eaglet中的Resource访问api service的例子：
+```python
+from eaglet.utils.resource_client import Resource
+
+......
+
+data = {
+	'corp_id': request.user.corp.id
+}
+
+resp = Resource.use('zeus').put({
+	'resource': 'mall.categories',
+	'data': data
+})
+
+if resp and resp['code'] == 200:
+	......
+
+......
+```
+
 # 安装必要组件
 
 ```
