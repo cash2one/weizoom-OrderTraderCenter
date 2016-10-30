@@ -55,14 +55,12 @@ start_service.bat
 
 
 # 编写一个service
-
-步骤概要：
-
 1. 在`service/handlers`目录下创建`.py`文件。比如`demo_data_created_handler.py`，按照规范，文件名中需要携带消息名`demo_data_created`。
 
 > 注意：一个py文件只负责处理一种消息，禁止将多个消息的处理写在同一个py文件中
 
 2. 在`demo_data_created_handler.py`中编写`message handler`函数：
+
 ```python
 #coding: utf8
 
