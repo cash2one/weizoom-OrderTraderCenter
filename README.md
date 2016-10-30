@@ -82,7 +82,9 @@ def handler(data, recv_msg=None):
 > 注意：所有的message handler都可以直接以hanlder作为函数名，在系统执行register时，系统会将handler函数名改为`demo_data_created_handler`，这个行为是系统自动完成的。
 
 3. 在`service/handler/__init__.py`中添加
-```
+```python
+[__init__.py]
+
 import demo_data_created_handler
 ```
 
