@@ -1,5 +1,29 @@
 # 用Python开发消息服务的codebase（基于阿里MNS消息服务）
 
+# 消息Service相关概念
+## service
+一个消息service是一个基于mns-service-base创建的service，最终会产生一个docker镜像，并在生产环境被部署。每一个service处理一类消息，一般来说，我们通常根据消息的来源来划分service，比如一个service处理来自商品管理的消息，另一个service处理来自订单管理的service。可以想到，一个service会处理多个消息。
+
+## message handler
+一个service会处理多个消息，每一种消息由一个`message handler`处理，一个message handler即是一个python函数：
+
+```
+from service.handler_register import register
+
+@register("demo_data_created")
+def handler(data, recv_msg=None):
+	"""
+	演示接收消息
+	"""
+	logging.info("processing message data: {}".format(data))
+```
+
+我们通过`register`这个decorator向service注册一个`message handler`，其中的`demo_data_created`是消息名。当service从消息中间件收到消息后，会根据消息种的消息名选择相应的`message handler`进行处理。
+
+> 注意：当前一个消息只能对应一个`message handler`，如果为同一种消息注册两个handler，后注册的会覆盖先注册的handler
+
+一般而言，在message handler的编程实践中，我们推荐使用`api service(比如gaia service)`进行读写数据的操作，而不是直接读写数据库，`api service`是微众微服务架构中唯一拥有数据库知识的service，这是一个架构层面的基本原则。但我们在mns-service-base中也引入了eaglet对数据库的支持，允许在特殊情况下直接访问数据库。再次强调：**我们强烈建议不要在event service中直接访问数据库**
+
 # 安装必要组件
 
 ```
@@ -8,32 +32,26 @@ pip install git+https://git2.weizzz.com:84/microservice/eaglet.git
 pip install -U git+https://git2.weizzz.com:84/microservice/mns_python_sdk.git
 ```
 
-# 配置数据库
-
-创建数据库：
-```
-mysql> CREATE DATABASE service DEFAULT CHARSET 'UTF8';
-mysql> GRANT ALL ON service.* TO 'service'@'%' IDENTIFIED BY 'weizoom';
-```
-
-配置hosts文件：
-```
-127.0.0.1   db.dev.com
-```
-
 # 启动service服务
 ```
-python manage.py service_runner
-```
+[linux]
 
-或者执行：
-```
 bash start_service.sh
 ```
 
+或者
+
+```
+[windows]
+start_service.bat
+```
+
+启动后，service会向位于阿里云的消息中间件中的queue（queue在settings.py中配置）进行消息轮询，并处理消息
+
 # 本地调试
 
-将待输入的message存入JSON文件，再执行`manage.py local_service_runner`。例如：
+1. 将待输入的message存入JSON文件
+2. 执行`python manage.py local_service_runner`：
 ```
 python manage.py local_service_runner test/test_demo.json
 ```
@@ -58,7 +76,7 @@ python manage.py local_service_runner test/test_demo.json
 2. 创建service function。例如：
 ```python
 #coding: utf8
-from service.service_register import register
+from service.handler_register import register
 import logging
 @register("foo.process")
 def foo_process(data, recv_msg=None):

@@ -8,28 +8,29 @@ DEBUG = True
 PROJECT_HOME = os.path.dirname(os.path.abspath(__file__))
 
 MODE = 'develop'
-#MODE = 'deploy'
-SERVICE_NAME = 'redmine-agent'
+SERVICE_NAME = '#service_name#'
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'mysql+retry',
-        'NAME': 'service',
-        'USER': 'service',
-        'PASSWORD': 'weizoom',
-        'HOST': 'db.dev.com',
-        'PORT': '',
-        'CONN_MAX_AGE': 100
-    },
-    'other_db': {
-        'ENGINE': 'mysql+retry',
-        'NAME': 'other_db',
-        'USER': 'other_db',
-        'PASSWORD': 'weizoom',
-        'HOST': 'db.other_db.com',
-        'PORT': '',
-        'CONN_MAX_AGE': 100
-    }
+    # if service need access database, uncomment following lines
+
+    # 'default': {
+    #     'ENGINE': 'mysql+retry',
+    #     'NAME': 'service',
+    #     'USER': 'service',
+    #     'PASSWORD': 'weizoom',
+    #     'HOST': 'db.dev.com',
+    #     'PORT': '',
+    #     'CONN_MAX_AGE': 100
+    # },
+    # 'other_db': {
+    #     'ENGINE': 'mysql+retry',
+    #     'NAME': 'other_db',
+    #     'USER': 'other_db',
+    #     'PASSWORD': 'weizoom',
+    #     'HOST': 'db.other_db.com',
+    #     'PORT': '',
+    #     'CONN_MAX_AGE': 100
+    # }
 }
 
 
@@ -41,8 +42,6 @@ MIDDLEWARES = [
     #账号信息中间件
     #'middleware.webapp_account_middleware.WebAppAccountMiddleware',
 ]
-#sevice celery 相关
-EVENT_DISPATCHER = 'redis'
 
 # settings for WAPI Logger
 if MODE == 'develop':
@@ -52,8 +51,6 @@ if MODE == 'develop':
     WAPI_LOGGER_DB = 'wapi'
     IMAGE_HOST = 'http://dev.weapp.com'
     PAY_HOST = 'api.weapp.com'
-    #sevice celery 相关
-    EVENT_DISPATCHER = 'local'
     ENABLE_SQL_LOG = False
 
     logging.basicConfig(
@@ -96,15 +93,13 @@ ENABLE_BDD_DUMP_RESPONSE = True
 WATCH_DOG_DEVICE = 'mysql'
 WATCH_DOG_LEVEL = 200
 IS_UNDER_BDD = False
-# 是否开启TaskQueue(基于Celery)
-TASKQUEUE_ENABLED = True
 
 
 # Celery for Falcon
 INSTALLED_TASKS = [
     #'resource.member.tasks',
     # 'core.watchdog.tasks',
-    'wapi.tasks',
+    #'wapi.tasks',
     
     # 'services.example_service.tasks.example_log_service',
     # 'services.order_notify_mail_service.task.notify_order_mail',
@@ -112,21 +107,12 @@ INSTALLED_TASKS = [
     # 'services.update_member_from_weixin.task.update_member_info',
 ]
 
-#redis celery相关
-REDIS_SERVICE_DB = 2
+# CTYPT_INFO = {
+#     'id': 'weizoom_h5',
+#     'token': '2950d602ffb613f47d7ec17d0a802b',
+#     'encodingAESKey': 'BPQSp7DFZSs1lz3EBEoIGe6RVCJCFTnGim2mzJw5W4I'
+# }
 
-CTYPT_INFO = {
-    'id': 'weizoom_h5',
-    'token': '2950d602ffb613f47d7ec17d0a802b',
-    'encodingAESKey': 'BPQSp7DFZSs1lz3EBEoIGe6RVCJCFTnGim2mzJw5W4I'
-}
-
-COMPONENT_INFO = {
-    'app_id' : 'wx9b89fe19768a02d2',
-}
-
-# 本地服务器多线程支持开关
-DEV_SERVER_MULTITHREADING = False
 
 if 'deploy' == MODE:
     # 正式环境

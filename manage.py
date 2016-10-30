@@ -3,8 +3,6 @@
 import sys
 from eaglet.command import manage as command_manager
 
-print sys.path
-
 if __name__ == '__main__':
     """
     commands_dir = './commands'

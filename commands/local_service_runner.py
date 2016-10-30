@@ -5,27 +5,16 @@
 @author Victor
 """
 
-import datetime
-import array
-
-from eaglet.utils.command import BaseCommand
-
-from eaglet.core.cache import utils as cache_util
-from bson import json_util
 import json
-
-import settings
-
-from redmine import Redmine
-from redmine.exceptions import ResourceNotFoundError
-
-from ding.dingtalk import DingTalk
-
-from eaglet.core.exceptionutil import unicode_full_stack
 import logging
 
-import service
-from service import service_register
+from eaglet.utils.command import BaseCommand
+from eaglet.core.cache import utils as cache_util
+from eaglet.core.exceptionutil import unicode_full_stack
+
+import settings
+import service #load all message handlers
+from service import handler_register
 
 class DummyMessage():
 	receipt_handle = 'handle'
@@ -37,7 +26,7 @@ class DummyMessage():
 
 
 class Command(BaseCommand):
-	help = "python manage.py sync_contacts"
+	help = "python manage.py local_service_runner"
 	args = ''
 
 
@@ -52,12 +41,15 @@ class Command(BaseCommand):
 
 			msg_name = data['name']
 			logging.info("message name: {}".format(msg_name))
-			func = service_register.find_service(msg_name)
-			logging.info("service function: {}".format(func))
+			func = handler_register.find_message_handler(msg_name)
+			if func:
+				logging.info("service function: {}".format(func))
 
-			fake_msg = DummyMessage()
-			fake_msg.message_body = data
-			fake_msg.message_id = '0'
-		
-			func(data['data'], fake_msg)
+				fake_msg = DummyMessage()
+				fake_msg.message_body = data
+				fake_msg.message_id = '0'
+			
+				func(data['data'], fake_msg)
+			else:
+				logging.error("NO handler for message: %s", msg_name)
 		return

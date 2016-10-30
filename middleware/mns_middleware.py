@@ -3,7 +3,7 @@ import falcon
 import json
 import logging
 import base64
-from service import service_register
+from service import handler_register
 from util import mns_util
 from falcon.http_status import HTTPStatus
 from eaglet.core.exceptionutil import unicode_full_stack
@@ -28,7 +28,7 @@ class NotificationsMiddleware(object):
 			message = base64.decodestring(msg['message'])
 			data = json.loads(message)
 			function_name = data['name']
-			func = service_register.find_service(function_name)
+			func = handler_register.find_message_handler(function_name)
 			status = falcon.HTTP_500
 			if func:
 				try:

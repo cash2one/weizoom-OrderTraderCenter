@@ -23,9 +23,8 @@ from mns.topic import *
 from mns.subscription import *
 
 import time
-import service  # load all services
-from service import service_register
-
+import service  #load all message handlers
+from service import handler_register
 
 
 WAIT_SECONDS = 10
@@ -59,11 +58,11 @@ class Command(BaseCommand):
 
 				# 处理消息(consume)
 				data = json.loads(recv_msg.message_body)
-				function_name = data['name']
-				func = service_register.find_service(function_name)
-				if func:
+				message_name = data['name']
+				handler_func = handler_register.find_message_handler(message_name)
+				if handler_func:
 					try:
-						response = func(data['data'], recv_msg)
+						response = handler_func(data['data'], recv_msg)
 						logging.info("service response: {}".format(response))
 
 						#只有正常才能删除消息，否则消息仍然在队列中
@@ -75,7 +74,8 @@ class Command(BaseCommand):
 					except:
 						logging.info(u"Service Exception: {}".format(unicode_full_stack()))
 				else:
-					logging.info(u"Error: no such service found : {}".format(function_name))
+					#TODO: 这里是否需要删除消息？
+					logging.info(u"Error: no such service found : {}".format(message_name))
 
 			except MNSExceptionBase as e:
 				if e.type == "QueueNotExist":

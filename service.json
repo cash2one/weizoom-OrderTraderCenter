@@ -1,4 +1,4 @@
 {
-	"name": "redmine-agent",
-	"type": "python-service"
+	"name": "#service_name#",
+	"type": "event-service"
 }
