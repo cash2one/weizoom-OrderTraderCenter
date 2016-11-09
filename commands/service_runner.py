@@ -8,7 +8,7 @@
 """
 
 from eaglet.utils.command import BaseCommand
-
+from eaglet.core import watchdog
 #from eaglet.core.cache import utils as cache_util
 import json
 
@@ -51,6 +51,8 @@ class Command(BaseCommand):
 
 		# TODO: 改成LongPoll更好
 		while True:
+			handler_func = None
+			handle_success = False
 			#读取消息
 			try:
 				recv_msg = queue.receive_message(WAIT_SECONDS)
@@ -64,6 +66,7 @@ class Command(BaseCommand):
 					try:
 						response = handler_func(data['data'], recv_msg)
 						logging.info("service response: {}".format(response))
+						handle_success = True
 
 						#只有正常才能删除消息，否则消息仍然在队列中
 						try:
@@ -89,4 +92,15 @@ class Command(BaseCommand):
 				continue
 			except Exception as e:
 				print u"Exception: {}".format(unicode_full_stack())
+			finally:
+				if handler_func:
+					message = {
+						'message_id': recv_msg.message_id,
+						'message_body_md5': '',
+						'data': args,
+						'topic_name': '',
+						'msg_name': message_name,
+						'handel_success': handle_success
+					}
+					watchdog.info(message, log_type='MNS_RECEIVE_LOG')
 		return
