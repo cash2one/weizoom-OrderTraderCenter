@@ -46,7 +46,13 @@ class Command(BaseCommand):
 			settings.MNS_ACCESS_KEY_SECRET, \
 			settings.MNS_SECURITY_TOKEN)
 
-		queue = self.mns_account.get_queue(settings.SUBSCRIBE_QUEUE_NAME)
+		if hasattr(settings, 'MESSAGE_DEBUG_MODE') and settings.MESSAGE_DEBUG_MODE:
+			import redis_queue
+			queue = redis_queue.get_queue(settings.SUBSCRIBE_QUEUE_NAME)
+			logging.info("queue mode:{}".format('redis'))
+		else:
+			queue = self.mns_account.get_queue(settings.SUBSCRIBE_QUEUE_NAME)
+			logging.info("queue mode:{}".format('mns'))
 		logging.info('queue: {}'.format(queue.get_attributes().queue_name))
 
 		# TODO: 改成LongPoll更好

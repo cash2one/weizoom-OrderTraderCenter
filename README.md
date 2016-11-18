@@ -110,7 +110,7 @@ import demo_data_created_handler
 ```
 
 # 本地调试service
-
+## 直接导入文件
 1. 将待输入的message存入JSON文件，比如test/data.json
 2. 执行`python manage.py local_service_runner`：
 ```
@@ -127,6 +127,13 @@ python manage.py local_service_runner test/data.json
 >      }
 > }
 > ```
+
+
+## Redis队列模式
+在settings.py中确保存在REDIS_HOST、REDIS_PORT、REDIS_QUEUE_DB、MESSAGE_DEBUG_MODE，且MESSAGE_DEBUG_MODE为True，则使用service_runner启动后，将监听本地redis的SUBSCRIBE_QUEUE_NAME队列。如何发送到本地redis队列，请见mns_python_sdk的说明。
+
+### 使用帮助：
+- 清空队列：直接清空REDIS_QUEUE_DB库，方法：1. redis-cli命令进入redis。2. select <REDIS_QUEUE_DB> 3. flushdb
 
 # 发送消息
 
