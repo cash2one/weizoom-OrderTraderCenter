@@ -81,7 +81,9 @@ else:
 REDIS_HOST = 'redis.weapp.com'
 REDIS_PORT = 6379
 REDIS_CACHES_DB = 1
+REDIS_QUEUE_DB = 8
 REDIS_CACHE_KEY = ':1:api'
+MESSAGE_DEBUG_MODE = False
 
 #BDD相关配置
 WEAPP_DIR = '../weapp'

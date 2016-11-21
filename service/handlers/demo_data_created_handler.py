@@ -16,6 +16,9 @@ def handler(data, recv_msg=None):
 	演示接收消息
 	"""
 	logging.info("processing message data: {}".format(data))
+	print('$$$$$$$$$$$$$$$$$$$$')
+	print(data)
+	print('$$$$$$$$$$$$$$$$$$$$')
 
 
 	# 如果需要访问其他api service
