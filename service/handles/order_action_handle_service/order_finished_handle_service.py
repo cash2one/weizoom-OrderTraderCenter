@@ -10,7 +10,7 @@ from bdem import msgutil
 from business.mall.corporation import Corporation
 from business.member.member_spread import MemberSpread
 from service.handler_register import register
-from gaia_conf import TOPIC
+from order_trade_center_conf import TOPIC
 from service.utils import not_retry
 from db.mall import promotion_models as promotion_models
 
