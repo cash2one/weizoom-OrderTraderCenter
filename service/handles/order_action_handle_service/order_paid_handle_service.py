@@ -6,8 +6,7 @@
 """
 
 from bdem import msgutil
-
-from business.mall.corporation import Corporation
+from eaglet.utils.resource_client import Resource
 from service.handler_register import register
 from order_trade_center_conf import TOPIC
 from service.utils import not_retry
@@ -26,31 +25,30 @@ def process(data, recv_msg=None):
 	from_status = data['from_status']
 	to_status = data['to_status']
 
-	corp = Corporation(corp_id)
+	order = Resource.use('gaia').get({
+		'resource': "order.order",
+		'data': {
+			'id': order_id,
+			'crop_id': corp_id
+		}
+	})
 
-	fill_options = {
-		'with_member': True,
-		'with_delivery_items': {
-			'with_products': True,
+	products = []
+	for delivery_item in order['delivery_items']:
+		for p in delivery_item['product']:
+			if p['promotion_info']['type'] != "premium_sale:premium_product":
+				products.append(p)
+
+	for product in products:
+		sale_data = {
+			'id': product['id'],
+			'changed_count': product['count']
 		}
 
-	}
-	order = corp.order_repository.get_order(order_id, fill_options)
-	# 更新商品销量
-
-	# todo 赠品不计销量
-	# for product in products:
-	# 	if product.promotion != {'type_name': 'premium_sale:premium_product'}:
-	# 		product_sale_infos.append({
-	# 			'product_id': product.id,
-	# 			'purchase_count': product.purchase_count
-	# 		})
-
-	delivery_item_products = order.get_all_products()
-	for product_info in delivery_item_products:
-		product = corp.product_pool.get_products_by_ids([product_info.id])[0]
-
-		product.update_sales(product_info.count)
+		Resource.use('gaia').post({
+			'resource': 'product.product_sale',
+			'data': sale_data
+		})
 
 	# # 发送运营邮件通知
 	# topic_name = TOPIC['base_service']
@@ -69,6 +67,3 @@ def process(data, recv_msg=None):
 	# }
 	# msgutil.send_message(topic_name, 'send_order_template_message_task', data)
 
-	order = corp.order_repository.get_order(order_id, fill_options)
-	member = corp.member_repository.get_member_by_id(order.member_info['id'])
-	member.update_pay_info(order, from_status, to_status)

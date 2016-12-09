@@ -71,7 +71,7 @@ def process(data, recv_msg=None):
 			}
 
 			Resource.use('gaia').post({
-				'resource': 'product.product_stock',
+				'resource': 'product.product_sale',
 				'data': sale_data
 			})
 
