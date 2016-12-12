@@ -30,7 +30,7 @@ def process(data, recv_msg=None):
 			'from_status': from_status,
 			'to_status': to_status
 		}
-	})  # 更新会员信息
+	})
 
 # # 发送运营邮件通知
 # topic_name = TOPIC['base_service']
