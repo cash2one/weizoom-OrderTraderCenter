@@ -131,4 +131,4 @@ else:
     # 华北2
     MNS_ENDPOINT = 'http://1615750970594173.mns.cn-beijing.aliyuncs.com/'
     MNS_SECURITY_TOKEN = ''
-    SUBSCRIBE_QUEUE_NAME = 'test-queue'
+    SUBSCRIBE_QUEUE_NAME = 'test-order-trade-center'

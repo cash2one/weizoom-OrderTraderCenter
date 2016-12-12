@@ -42,4 +42,4 @@ def process(data, recv_msg=None):
 	# member = corp.member_repository.get_member_by_id(order.member_info['id'])
 	# member.update_pay_info(order, from_status, to_status)
 
-	utils.update_member_pay_info(corp_id, order_id,to_status)
+	utils.update_member_pay_info(corp_id, order_id, from_status, to_status)
