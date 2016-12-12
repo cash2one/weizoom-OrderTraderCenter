@@ -2,33 +2,33 @@
 """
 处理已支付的订单
 """
-import time
-
-from eaglet.core.sendmail import sendmail
-
-import settings
-from business.mall.notify.notification_repository import NotificationRepository
-from service.handler_register import register
-
-# -*- coding: utf-8 -*-
-from util.regional_util import get_str_value_by_string_ids
-
-from business.mall.corporation import Corporation
-from service.handler_register import register
-from db.mall import models as mall_models
-
-ORDER_STATUS2NOTIFY_STATUS = {
-	mall_models.ORDER_STATUS_NOT: mall_models.PLACE_ORDER,
-	mall_models.ORDER_STATUS_PAYED_NOT_SHIP: mall_models.PAY_ORDER,
-	mall_models.ORDER_STATUS_PAYED_SHIPED: mall_models.SHIP_ORDER,
-	mall_models.ORDER_STATUS_SUCCESSED: mall_models.SUCCESSED_ORDER,
-	mall_models.ORDER_STATUS_CANCEL: mall_models.CANCEL_ORDER
-}
-
-
-def __send_email(emails, content_described, content):
-	for email in emails:
-		sendmail(email, content_described, content)
+# import time
+#
+# from eaglet.core.sendmail import sendmail
+#
+# import settings
+# from business.mall.notify.notification_repository import NotificationRepository
+# from service.handler_register import register
+#
+# # -*- coding: utf-8 -*-
+# from util.regional_util import get_str_value_by_string_ids
+#
+# from business.mall.corporation import Corporation
+# from service.handler_register import register
+# from db.mall import models as mall_models
+#
+# ORDER_STATUS2NOTIFY_STATUS = {
+# 	mall_models.ORDER_STATUS_NOT: mall_models.PLACE_ORDER,
+# 	mall_models.ORDER_STATUS_PAYED_NOT_SHIP: mall_models.PAY_ORDER,
+# 	mall_models.ORDER_STATUS_PAYED_SHIPED: mall_models.SHIP_ORDER,
+# 	mall_models.ORDER_STATUS_SUCCESSED: mall_models.SUCCESSED_ORDER,
+# 	mall_models.ORDER_STATUS_CANCEL: mall_models.CANCEL_ORDER
+# }
+#
+#
+# def __send_email(emails, content_described, content):
+# 	for email in emails:
+# 		sendmail(email, content_described, content)
 
 # 暂时停用
 # @register("send_order_email_task")
