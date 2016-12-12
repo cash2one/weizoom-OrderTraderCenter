@@ -20,7 +20,7 @@
 # from business.mall.express.kdniao_express_poll import KdniaoExpressPoll
 # from service.handler_register import register
 # from db.express import models as express_models
-# from gaia_conf import TOPIC
+# from order_trade_center_conf import TOPIC
 # from service.utils import not_retry
 #
 #

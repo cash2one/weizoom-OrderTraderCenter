@@ -4,19 +4,13 @@
 
 @author Victor
 """
-
-import logging
-
+import json
 from bdem import msgutil
 
-from business.mall.corporation import Corporation
-from business.mall.express.express_service import ExpressService
-from business.mall.express.kdniao_express_poll import KdniaoExpressPoll
-from business.order.release_delivery_item_resource import ReleaseDeliveryItemResourceService
+from order_trade_center_conf import TOPIC
 from service.handler_register import register
-from db.express import models as express_models
-from gaia_conf import TOPIC
 from service.utils import not_retry
+from eaglet.utils.resource_client import Resource
 
 
 @register("delivery_item_refunded")
@@ -40,7 +34,44 @@ def process(data, recv_msg=None):
 		"corp_id": corp_id
 	}
 	msgutil.send_message(topic_name, 'send_delivery_item_phone_message_task', data)
-	corp = Corporation(corp_id)
 
-	release_delivery_item_resource_service = ReleaseDeliveryItemResourceService.get(corp)
-	release_delivery_item_resource_service.release(delivery_item_id, from_status, to_status)
+	delivery_item_data = Resource.use('gaia').get({
+		'resource': 'order.delivery_item',
+		'data': {
+			'corp_id': corp_id,
+			'id': delivery_item_id
+		}
+
+	})
+
+	for product in delivery_item_data['products']:
+
+		# 回退库存
+		stock_infos = {
+			'model_id': product['model_id'],
+			'changed_count': product['count']
+		}
+
+		sale_data = {
+			'id': product['id'],
+			'stock_infos': json.dumps([stock_infos])
+		}
+
+		Resource.use('gaia').post({
+			'resource': 'product.product_stock',
+			'data': sale_data
+		})
+
+		# 回退销量
+
+		if from_status != 'created' and product['promotion_info']['type'] != "premium_sale:premium_product":
+			sale_data = {
+				'id': product['id'],
+				'changed_count': 0-product['count']
+			}
+
+			Resource.use('gaia').post({
+				'resource': 'product.product_sale',
+				'data': sale_data
+			})
+
