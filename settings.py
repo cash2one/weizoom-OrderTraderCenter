@@ -8,7 +8,7 @@ DEBUG = True
 PROJECT_HOME = os.path.dirname(os.path.abspath(__file__))
 
 MODE = 'develop'
-SERVICE_NAME = '#service_name#'
+SERVICE_NAME = 'order_trade_center'
 
 DATABASES = {
     # if service need access database, uncomment following lines
