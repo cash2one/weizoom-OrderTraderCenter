@@ -3,6 +3,7 @@
 import os
 import logging
 
+from eaglet.utils.resource_client import Resource
 
 DEBUG = True
 PROJECT_HOME = os.path.dirname(os.path.abspath(__file__))
@@ -132,3 +133,5 @@ else:
     MNS_ENDPOINT = 'http://1615750970594173.mns.cn-beijing.aliyuncs.com/'
     MNS_SECURITY_TOKEN = ''
     SUBSCRIBE_QUEUE_NAME = 'test-order-trade-center'
+
+Resource.configure({"service_map": {'gaia': 'gaia@inner'}})
