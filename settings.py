@@ -115,6 +115,9 @@ INSTALLED_TASKS = [
 #     'token': '2950d602ffb613f47d7ec17d0a802b',
 #     'encodingAESKey': 'BPQSp7DFZSs1lz3EBEoIGe6RVCJCFTnGim2mzJw5W4I'
 # }
+MAIL_NOTIFY_USERNAME = u'noreply@notice.weizoom.com'
+MAIL_NOTIFY_PASSWORD = u'Weizoom2015'
+MAIL_NOTIFY_ACCOUNT_SMTP = u'smtp.dm.aliyun.com'
 
 
 if 'deploy' == MODE:
