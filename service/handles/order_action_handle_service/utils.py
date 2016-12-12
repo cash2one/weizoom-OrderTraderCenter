@@ -15,7 +15,7 @@ def update_member_pay_info(corp_id, order_id, from_status, to_status):
 	# member_id = order['member_info']['id']
 
 	Resource.use('gaia').post({
-		'resource': 'member.member_order_integral',
+		'resource': 'member.member_pay_info',
 		'data': {
 			'corp_id': corp_id,
 			'order_id': order_id,
