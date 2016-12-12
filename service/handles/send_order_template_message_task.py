@@ -17,10 +17,10 @@ SELECT * from market_tools_template_message;
 
 import settings
 from bdem import msgutil
-from business.mall.corporation import Corporation
+
 from order_trade_center_conf import TOPIC
 from service.handler_register import register
-from db.mall import models as mall_models
+
 
 TEMPLATE_DB_TITLE2TMS_NAME = {
 	u"TM00247-购买成功通知": u"购买成功通知",

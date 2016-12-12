@@ -2,9 +2,8 @@
 """
 处理已支付的订单
 """
-from business.mall.corporation import Corporation
+
 from service.handler_register import register
-from util.send_phone_msg import send_chargeback_message
 
 
 @register("send_delivery_item_phone_message_task")
