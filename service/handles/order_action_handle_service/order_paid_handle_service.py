@@ -18,24 +18,25 @@ def process(data, recv_msg=None):
 	"""
 	处理支付订单消息
 	"""
-
 	corp_id = data['corp_id']
 	order_id = data['order_id']
 	order_bid = data['order_bid']
 	from_status = data['from_status']
 	to_status = data['to_status']
 
-	order = Resource.use('gaia').get({
+	print('-----order_id', order_id, corp_id)
+
+	resp = Resource.use('gaia').get({
 		'resource': "order.order",
 		'data': {
 			'id': order_id,
-			'crop_id': corp_id
+			'corp_id': int(corp_id)
 		}
 	})
-
+	order_data = resp['data']['order']
 	products = []
-	for delivery_item in order['delivery_items']:
-		for p in delivery_item['product']:
+	for delivery_item in order_data['delivery_items']:
+		for p in delivery_item['products']:
 			if p['promotion_info']['type'] != "premium_sale:premium_product":
 				products.append(p)
 
@@ -66,4 +67,3 @@ def process(data, recv_msg=None):
 	# 	"corp_id": corp.id
 	# }
 	# msgutil.send_message(topic_name, 'send_order_template_message_task', data)
-
