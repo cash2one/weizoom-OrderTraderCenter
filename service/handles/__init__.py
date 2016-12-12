@@ -2,7 +2,7 @@
 
 import notify_kuaidi_task
 import send_delivery_item_phone_message_task
-import send_order_email_task
+
 import send_order_template_message_task
 
 
@@ -20,5 +20,3 @@ from order_action_handle_service import order_paid_handle_service
 from order_action_handle_service import order_refunded_handle_service
 from order_action_handle_service import order_shipped_handle_service
 
-
-import test_send_handle

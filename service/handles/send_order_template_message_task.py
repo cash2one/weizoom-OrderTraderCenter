@@ -35,6 +35,7 @@ TEMPLATE_DB_TITLE2TMS_NAME = {
 
 @register("send_order_template_message_task")
 def process(data, recv_msg=None):
+	return
 	corp_id = data['corp_id']
 	corp = Corporation(corp_id)
 	to_status = data['to_status']
