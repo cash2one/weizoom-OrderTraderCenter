@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-处理已支付的订单
+快递订阅
 """
-import time
-
 from service.handler_register import register
 from eaglet.utils.resource_client import Resource
 
 
 @register("notify_kuadi_task")
 def process(data, recv_msg=None):
-	return
 	corp_id = data['corp_id']
 	delivery_item_id = data['delivery_item_id']
 
