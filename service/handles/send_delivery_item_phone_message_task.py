@@ -11,8 +11,6 @@ def process(data, recv_msg=None):
 	corp_id = data['corp_id']
 	delivery_item_id = data['delivery_item_id']
 
-	corp = Corporation(corp_id)
-
 	data = {
 		'corp_id': corp_id,
 		'delivery_item_id': delivery_item_id
