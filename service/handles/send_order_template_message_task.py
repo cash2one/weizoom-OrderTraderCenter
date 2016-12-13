@@ -119,7 +119,6 @@ def process(data, recv_msg=None):
 				openid = resp_member['data']['social_account']['openid']
 				template_data['touser'] = openid
 				template_data['template_id'] = template_message.get('template_id','')
-				print '============template_id========',template_data['template_id']
 				template_data['url'] = 'http://%s/mall/order_detail/?woid=%s&order_id=%s' % (settings.H5_DOMAIN, corp_id, order_id)
 				# template_data['url'] = 'http://%s/mall/order_detail/?woid=%s&order_id=%s' % (H5_DOMAIN, corp_id, order['order_id'])
 				template_data['topcolor'] = "#FF0000"
@@ -157,7 +156,6 @@ def process(data, recv_msg=None):
 								products = order_products
 								product_names =','.join([p['name'] for p in products])
 								detail_data[key] = {"value" : product_names, "color" : "#173177"}
-					print attribute_data_list,'========attribute_data_list=============='
 				template_data['data'] = detail_data
 
 				# 获取微信用户的access_token
@@ -173,4 +171,3 @@ def process(data, recv_msg=None):
 				access_token.access_token = mpuser_access_token['access_token']
 				weixin_api = get_weixin_api(access_token)
     			weixin_api.send_template_message(template_data, True)
-    			print template_data,'======================'
