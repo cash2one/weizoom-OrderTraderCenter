@@ -20,16 +20,7 @@ import settings
 from eaglet.core.wxapi import get_weixin_api
 from gaia_conf import TOPIC
 from service.handler_register import register
-
-# 消息队列topic
-TOPIC = {
-	'product': 'test-topic',
-	'order': 'test-topic',
-	'delivery_item': 'test-topic',
-	'mall_config': "test-topic",
-	'base_service': 'test-topic',  # 基础的异步化服务，如邮件，模板消息等
-	'template_message': 'test-weixin-topic'  # 微信模板消息
-}
+from eaglet.utils.resource_client import Resource
 
 TEMPLATE_DB_TITLE2TMS_NAME = {
 	u"TM00247-购买成功通知": u"购买成功通知",
@@ -40,58 +31,64 @@ TEMPLATE_DB_TITLE2TMS_NAME = {
 	u"TM00853-优惠券过期提醒": u"优惠券过期提醒",
 	u"OPENTM207449727-任务完成通知": u"任务完成通知"
 }
+PAY_ORDER_SUCCESS = 0       #订单支付成功
+PAY_DELIVER_NOTIFY = 1      #发货通知
+COUPON_ARRIVAL_NOTIFY = 2   #优惠劵到账通知
+COUPON_EXPIRED_REMIND = 3   #优惠劵过期提醒
 
-H5_DOMAIN = 'mall.weizoom.com'
-
-
+class FakeObject(object):
+	"""docstring for ClassName"""
+	pass
+		
 @register("send_order_template_message_task")
 def process(data, recv_msg=None):
+	"""
+	发货通知：测试的时候需准备测试数据，在页面上点发货即可
+	"""
 	corp_id = data['corp_id']
-	corp = Corporation(corp_id)
+	# corp = Corporation(corp_id)
 	to_status = data['to_status']
 	topic = TOPIC['template_message']
 
 	type = data['type']
 	if type == 'delivery_item':
 		delivery_item_id = data['delivery_item_id']
-		order_id = delivery_item.origin_order_id
 
 		# 获取出货单详情
 		data_delivery_item = {
 			'corp_id': corp_id,
-			'id': delivery_item_id
+			'delivery_item_id': delivery_item_id
 		}
 		resp_delivery_item = Resource.use('gaia').get({
 			'resource': 'order.delivery_item',
 			'data': data_delivery_item
 		})
-		delivery_item = resp['data']['delivery_item']
+		delivery_item = resp_delivery_item['data']['delivery_item']
 
 		# 获取订单详情
+		order_id = delivery_item['origin_order_id']
 		data_order = {
 			'corp_id': corp_id,
 			'id': order_id
 		}
 		resp_order = Resource.use('gaia').get({
-			'resource': 'mall.template_message',
+			'resource': 'order.order',
 			'data': data_order
 		})
-		order = resp['data']['order']
+		order = resp_order['data']['order']
 
-		print '============delivery_item=============',delivery_item
-		print '============order=============',order
 		if to_status == 'shipped':
 			# 获取消息模板
-			send_point = mall_models.PAY_DELIVER_NOTIFY
 			data_template_message = {
 				'corp_id':corp_id,
-				'send_point':send_point
+				'send_point':PAY_DELIVER_NOTIFY
 			}
 			resp_template_message = Resource.use('gaia').get({
 				'resource': 'mall.template_message',
 				'data': data_template_message
 			})
 			template_message = resp_template_message['data']['template']
+
 			"""
 			"template": {
 			      "status": 1,
@@ -122,43 +119,45 @@ def process(data, recv_msg=None):
 				openid = resp_member['data']['social_account']['openid']
 				template_data['touser'] = openid
 				template_data['template_id'] = template_message.get('template_id','')
-				template_data['url'] = 'http://%s/mall/order_detail/?woid=%s&order_id=%s' % (settings.H5_DOMAIN, corp_id, order['order_id'])
+				print '============template_id========',template_data['template_id']
+				template_data['url'] = 'http://%s/mall/order_detail/?woid=%s&order_id=%s' % (settings.H5_DOMAIN, corp_id, order_id)
 				# template_data['url'] = 'http://%s/mall/order_detail/?woid=%s&order_id=%s' % (H5_DOMAIN, corp_id, order['order_id'])
 				template_data['topcolor'] = "#FF0000"
 				detail_data = {}
 				attribute = template_message.get('attribute','')
 				detail_data["first"] = {"value" : template_message.get('first_text',''), "color" : "#000000"}
 				detail_data["remark"] = {"value" : template_message.get('remark_text',''), "color" : "#000000"}
-				order.express_company_name =  u'%s快递' % delivery_item.express_company_name_text
+				order['express_company_name'] =  u'%s快递' % delivery_item['express_company_name_text']
 				if attribute:
 					attribute_data_list = attribute.split(',')
 					for attribute_datas in attribute_data_list:
 						attribute_data = attribute_datas.split(':')
 						key = attribute_data[0].strip()
 						attr = attribute_data[1].strip()
-						if attr == 'final_price' and getattr(order, attr):
-							value = u'￥%s［实际付款］' % getattr(order, attr)
+						if attr == 'final_price' and order[attr]:
+							value = u'￥%s［实际付款］' % order[attr]
 							detail_data[key] = {"value" : value, "color" : "#173177"}
 						elif hasattr(order, attr):
 							if attr == 'final_price':
-								value = u'￥%s［实际付款］' % getattr(order, attr)
+								value = u'￥%s［实际付款］' % order[attr]
 								detail_data[key] = {"value" : value, "color" : "#173177"}
 							elif attr == 'payment_time':
 								dt = datetime.now()
 								payment_time = dt.strftime('%Y-%m-%d %H:%M:%S')
 								detail_data[key] = {"value" : payment_time, "color" : "#173177"}
 							else:
-								detail_data[key] = {"value" : getattr(order, attr), "color" : "#173177"}
+								detail_data[key] = {"value" : order[attr], "color" : "#173177"}
 						else:
-							order_products = order['delivery_item']['products']
+							order_products = order['delivery_items'][0]['products']
 							if 'number' == attr:
-								number = sum([product.count for product in order_products])
+								number = sum([product['count'] for product in order_products])
 								detail_data[key] = {"value" : number, "color" : "#173177"}
 
 							if 'product_name' == attr:
-								products = self.products
-								product_names =','.join([p.name for p in products])
+								products = order_products
+								product_names =','.join([p['name'] for p in products])
 								detail_data[key] = {"value" : product_names, "color" : "#173177"}
+					print attribute_data_list,'========attribute_data_list=============='
 				template_data['data'] = detail_data
 
 				# 获取微信用户的access_token
@@ -170,17 +169,8 @@ def process(data, recv_msg=None):
 					'data': data_mpuser_info
 				})
 				mpuser_access_token = resp_mpuser_info['data']['access_token']
-				weixin_api = get_weixin_api(mpuser_access_token)
+				access_token = FakeObject()
+				access_token.access_token = mpuser_access_token['access_token']
+				weixin_api = get_weixin_api(access_token)
     			weixin_api.send_template_message(template_data, True)
     			print template_data,'======================'
-
-
-data = {
-
-	'delivery_item_id':'1001435',
-	'to_status':'shipped',
-	'corp_id':490,
-	'type':'delivery_item'
-}
-print(2222222222222)
-process(data,None)

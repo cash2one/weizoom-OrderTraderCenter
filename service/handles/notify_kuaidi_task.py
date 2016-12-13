@@ -5,13 +5,8 @@
 import time
 
 from eaglet.core.sendmail import sendmail
-
-from business.mall.express.express_service import ExpressService
-
-
-from business.mall.corporation import Corporation
 from service.handler_register import register
-from db.mall import models as mall_models
+from eaglet.utils.resource_client import Resource
 
 ORDER_STATUS2NOTIFY_STATUS = {
 	mall_models.ORDER_STATUS_NOT: mall_models.PLACE_ORDER,
@@ -32,11 +27,14 @@ def process(data, recv_msg=None):
 	corp_id = data['corp_id']
 	delivery_item_id = data['delivery_item_id']
 
-	corp = Corporation(corp_id)
+	data = {
+		'corp_id': corp_id,
+		'delivery_item_id': delivery_item_id
+	}
+	Resource.use('gaia').put({
+		'resource': 'delivery_item.NotifyKuaidi',
+		'data': data
+	})
 
-	delivery_item = corp.delivery_item_repository.get_delivery_item(delivery_item_id)
-	if delivery_item.with_logistics_trace:
-		# 发送快递订阅
-		is_success = ExpressService(delivery_item).get_express_poll()
-		if not is_success:
-			raise Exception(u'快递订阅异常')
+
+	
