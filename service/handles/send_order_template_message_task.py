@@ -133,19 +133,19 @@ def process(data, recv_msg=None):
 						attribute_data = attribute_datas.split(':')
 						key = attribute_data[0].strip()
 						attr = attribute_data[1].strip()
-						if attr == 'final_price' and order[attr]:
-							value = u'￥%s［实际付款］' % order[attr]
+						if attr == 'final_price' and order.get(attr,''):
+							value = u'￥%s［实际付款］' % order.get(attr,'')
 							detail_data[key] = {"value" : value, "color" : "#173177"}
-						elif hasattr(order, attr):
+						elif order.get(attr,''):
 							if attr == 'final_price':
-								value = u'￥%s［实际付款］' % order[attr]
+								value = u'￥%s［实际付款］' % order.get(attr,'')
 								detail_data[key] = {"value" : value, "color" : "#173177"}
 							elif attr == 'payment_time':
 								dt = datetime.now()
 								payment_time = dt.strftime('%Y-%m-%d %H:%M:%S')
 								detail_data[key] = {"value" : payment_time, "color" : "#173177"}
 							else:
-								detail_data[key] = {"value" : order[attr], "color" : "#173177"}
+								detail_data[key] = {"value" : order.get(attr,''), "color" : "#173177"}
 						else:
 							order_products = order['delivery_items'][0]['products']
 							if 'number' == attr:
