@@ -127,6 +127,8 @@ def process(data, recv_msg=None):
 				detail_data["first"] = {"value" : template_message.get('first_text',''), "color" : "#000000"}
 				detail_data["remark"] = {"value" : template_message.get('remark_text',''), "color" : "#000000"}
 				order['express_company_name'] =  u'%s快递' % delivery_item['express_company_name_text']
+				order['order_id'] = order.get('bid','')
+				order['ship_address'] = order.get('ship_area','')+order.get('ship_address','')
 				if attribute:
 					attribute_data_list = attribute.split(',')
 					for attribute_datas in attribute_data_list:
