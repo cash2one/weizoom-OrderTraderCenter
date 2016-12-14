@@ -119,6 +119,15 @@ MAIL_NOTIFY_USERNAME = u'noreply@notice.weizoom.com'
 MAIL_NOTIFY_PASSWORD = u'Weizoom2015'
 MAIL_NOTIFY_ACCOUNT_SMTP = u'smtp.dm.aliyun.com'
 
+if 'develop' == MODE:
+    DOMAIN = 'dev.weapp.com'
+    H5_DOMAIN = 'mall.weizoom.com'
+elif 'test' == MODE:
+    DOMAIN = 'testweapp.weizoom.com'
+    H5_DOMAIN = 'mall.weizoom.com'
+else:
+    DOMAIN = 'weapp.weizoom.com'
+    H5_DOMAIN = 'mall.weizoom.com'
 
 if 'deploy' == MODE:
     # 正式环境
