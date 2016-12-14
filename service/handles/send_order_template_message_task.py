@@ -119,7 +119,7 @@ def process(data, recv_msg=None):
 				openid = resp_member['data']['social_account']['openid']
 				template_data['touser'] = openid
 				template_data['template_id'] = template_message.get('template_id','')
-				template_data['url'] = 'http://%s/mall/order_detail/?woid=%s&order_id=%s' % (settings.H5_DOMAIN, corp_id, order_id)
+				template_data['url'] = 'http://%s/mall/order_detail/?woid=%s&order_id=%s' % (settings.H5_DOMAIN, corp_id, order['bid'])
 				# template_data['url'] = 'http://%s/mall/order_detail/?woid=%s&order_id=%s' % (H5_DOMAIN, corp_id, order['order_id'])
 				template_data['topcolor'] = "#FF0000"
 				detail_data = {}
