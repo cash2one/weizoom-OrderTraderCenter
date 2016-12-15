@@ -52,6 +52,7 @@ def process(data, recv_msg=None):
 	# 发送支付通知
 	topic_name = TOPIC['base_service']
 	data = {
+		"order_id": order_id
 		"corp_id": corp_id,
 		"type": "order",
 		'to_status': to_status
