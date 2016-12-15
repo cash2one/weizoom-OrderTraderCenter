@@ -144,7 +144,7 @@ def process(data, recv_msg=None):
 				template_data['data'] = detail_data
 	if type == 'order':
 		# 获取订单详情
-		order_id = data['order_id']
+		order_id = data.get('order_id','')
 		data_order = {
 			'corp_id': corp_id,
 			'id': order_id
