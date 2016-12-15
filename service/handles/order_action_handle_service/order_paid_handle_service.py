@@ -49,6 +49,14 @@ def process(data, recv_msg=None):
 			'data': sale_data
 		})
 
+	# 发送支付通知
+	topic_name = TOPIC['base_service']
+	data = {
+		"corp_id": corp_id,
+		"type": "order",
+		'to_status': to_status
+	}
+	msgutil.send_message(topic_name, 'send_order_template_message_task', data)
 	# # 发送运营邮件通知
 	# topic_name = TOPIC['base_service']
 	# data = {
