@@ -45,13 +45,13 @@ def process(data, recv_msg=None):
 	"""
 	发货通知：测试的时候需准备测试数据，在页面上点发货即可
 	"""
-	corp_id = data.get('corp_id','')
-	to_status = data.get('to_status','')
+	corp_id = data['corp_id']
+	to_status = data['to_status']
 	topic = TOPIC['template_message']
 
-	type = data.get('type','')
+	type = data['type']
 	if type == 'delivery_item':
-		delivery_item_id = data.get('delivery_item_id','')
+		delivery_item_id = data['delivery_item_id']
 
 		# 获取出货单详情
 		data_delivery_item = {
@@ -144,7 +144,7 @@ def process(data, recv_msg=None):
 				template_data['data'] = detail_data
 	if type == 'order':
 		# 获取订单详情
-		order_id = data.get('order_id','')
+		order_id = data['order_id']
 		data_order = {
 			'corp_id': corp_id,
 			'id': order_id
