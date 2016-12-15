@@ -77,7 +77,7 @@ def process(data, recv_msg=None):
 		})
 		order = resp_order['data']['order']
 
-		if to_status == 'shipped':
+		if to_status == 'shipped' or to_status == 'paid':
 			# 获取消息模板
 			data_template_message = {
 				'corp_id':corp_id,
