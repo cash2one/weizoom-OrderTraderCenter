@@ -66,6 +66,7 @@ def process(data, recv_msg=None):
 	utils.update_member_pay_info(corp_id, order_id, from_status, to_status)
 	utils.update_member_order_integral(corp_id, order_id, from_status, to_status)
 	utils.update_member_order_spread_integral(corp_id, order_id, from_status, to_status)
+	utils.update_member_order_grade(corp_id, order_id)
 
 	# # 更新红包引入消费金额的数据
 	# if order.coupon_id and promotion_models.RedEnvelopeParticipences.select().dj_where(coupon_id=order.coupon_id,

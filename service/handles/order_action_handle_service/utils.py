@@ -50,3 +50,24 @@ def update_member_order_spread_integral(corp_id, order_id, from_status, to_statu
 
 		}
 	})
+
+
+def update_member_order_grade(corp_id, order_id):
+	order = Resource.use('gaia').get({
+		'resource': 'order.order',
+		'data': {
+			'corp_id': corp_id,
+			'id': order_id
+		}
+	})
+
+	member_id = order['member_info']['id']
+
+	Resource.use('gaia').post({
+		'resource': 'member.member_order_spread_integral',
+		'data': {
+			'corp_id': corp_id,
+			'order_id': member_id,
+
+		}
+	})
