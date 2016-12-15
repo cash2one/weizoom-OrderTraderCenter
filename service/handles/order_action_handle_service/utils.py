@@ -67,7 +67,7 @@ def update_member_order_grade(corp_id, order_id):
 		'resource': 'member.member_order_grade',
 		'data': {
 			'corp_id': corp_id,
-			'order_id': member_id,
+			'member_id': member_id,
 
 		}
 	})
