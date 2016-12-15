@@ -24,8 +24,6 @@ def process(data, recv_msg=None):
 	from_status = data['from_status']
 	to_status = data['to_status']
 
-	print('-----order_id', order_id, corp_id)
-
 	resp = Resource.use('gaia').get({
 		'resource': "order.order",
 		'data': {
