@@ -18,7 +18,7 @@ SELECT * from market_tools_template_message;
 # settings.configure()
 import settings
 from eaglet.core.wxapi import get_weixin_api
-from gaia_conf import TOPIC
+from order_trade_center_conf import TOPIC
 from service.handler_register import register
 from eaglet.utils.resource_client import Resource
 
