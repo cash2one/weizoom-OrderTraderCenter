@@ -6,7 +6,7 @@ from service.handler_register import register
 from eaglet.utils.resource_client import Resource
 
 
-@register("notify_kuadi_task")
+@register("notify_kuaidi_task")
 def process(data, recv_msg=None):
 	corp_id = data['corp_id']
 	delivery_item_id = data['delivery_item_id']
