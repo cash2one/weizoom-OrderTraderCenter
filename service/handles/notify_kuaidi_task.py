@@ -18,8 +18,6 @@ def process(data, recv_msg=None):
 		'resource': 'delivery_item.notify_kuaidi',
 		'data': data
 	})
-	if resp and resp['code'] == 500:
-		watchdog.error(u'快递订阅失败，corp_id:{}, delivery_item_id:{}'.format(corp_id,delivery_item_id) )
 
 
 	
