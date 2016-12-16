@@ -27,7 +27,7 @@ def process(data, recv_msg=None):
 	from_status = data['from_status']
 	to_status = data['to_status']
 
-	# 订阅快递推送
+	# 发送短信
 	topic_name = TOPIC['base_service']
 	data = {
 		"delivery_item_id": delivery_item_id,
@@ -45,14 +45,6 @@ def process(data, recv_msg=None):
 			'to_status': to_status
 		}
 	})
-
-	# 发送短信通知
-	topic_name = TOPIC['base_service']
-	data = {
-		"delivery_item_id": delivery_item_id,
-		"corp_id": corp.id
-	}
-	msgutil.send_message(topic_name, 'send_delivery_item_phone_message_task', data)
 # for product in delivery_item_data['products']:
 #
 # 	# 回退库存

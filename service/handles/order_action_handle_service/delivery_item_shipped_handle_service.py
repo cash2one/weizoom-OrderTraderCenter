@@ -25,7 +25,6 @@ def process(data, recv_msg=None):
 	corp_id = data['corp_id']
 	delivery_item_id = data['delivery_item_id']
 	to_status = data['to_status']
-
 	# 订阅快递推送
 	topic_name = TOPIC['base_service']
 	data = {
@@ -33,7 +32,6 @@ def process(data, recv_msg=None):
 		"corp_id": corp_id
 	}
 	msgutil.send_message(topic_name, 'notify_kuaidi_task', data)
-
 	# 发送模板消息
 	topic_name = TOPIC['base_service']
 	data = {
@@ -44,12 +42,11 @@ def process(data, recv_msg=None):
 	}
 
 	msgutil.send_message(topic_name, 'send_order_template_message_task', data)
-
-	# 发送通知邮件
-	topic_name = TOPIC['base_service']
-	data = {
-		"type": "delivery_item",
-		"delivery_item_id": delivery_item_id,
-		"corp_id": corp_id
-	}
-	msgutil.send_message(topic_name, 'send_order_email_task', data)
+	# # 发送通知邮件
+	# topic_name = TOPIC['base_service']
+	# data = {
+	# 	"type": "delivery_item",
+	# 	"delivery_item_id": delivery_item_id,
+	# 	"corp_id": corp_id
+	# }
+	# msgutil.send_message(topic_name, 'send_order_email_task', data)
