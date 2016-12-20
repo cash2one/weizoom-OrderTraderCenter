@@ -160,7 +160,7 @@ def process(data, recv_msg=None):
 			# 获取消息模板
 			data_template_message = {
 				'corp_id':corp_id,
-				'send_point':PAY_DELIVER_NOTIFY
+				'send_point':PAY_ORDER_SUCCESS
 			}
 			resp_template_message = Resource.use('gaia').get({
 				'resource': 'mall.template_message',
