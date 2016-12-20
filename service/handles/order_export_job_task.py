@@ -28,7 +28,7 @@ COUNT_PER_PAGE = 100
 @register("order_export_job_created")
 def handler(data, recv_msg=None):
 	"""
-	演示接收消息
+	订单导出
 	"""
 	logging.info("processing message data: {}".format(data))
 	job_id = data['job_id']
