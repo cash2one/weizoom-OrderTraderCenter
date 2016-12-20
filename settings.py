@@ -10,28 +10,19 @@ PROJECT_HOME = os.path.dirname(os.path.abspath(__file__))
 
 MODE = 'develop'
 SERVICE_NAME = 'order_trade_center'
+GAIA_DB = os.environ.get('GAIA_DB', None) or 'db.dev.com'
 
 DATABASES = {
-    # if service need access database, uncomment following lines
-
-    # 'default': {
-    #     'ENGINE': 'mysql+retry',
-    #     'NAME': 'service',
-    #     'USER': 'service',
-    #     'PASSWORD': 'weizoom',
-    #     'HOST': 'db.dev.com',
-    #     'PORT': '',
-    #     'CONN_MAX_AGE': 100
-    # },
-    # 'other_db': {
-    #     'ENGINE': 'mysql+retry',
-    #     'NAME': 'other_db',
-    #     'USER': 'other_db',
-    #     'PASSWORD': 'weizoom',
-    #     'HOST': 'db.other_db.com',
-    #     'PORT': '',
-    #     'CONN_MAX_AGE': 100
-    # }
+    'default': {
+        'ENGINE': 'mysql+retry',
+        #'NAME': 'new_zeus',
+        'NAME': 'weapp',
+        'USER': 'weapp',
+        'PASSWORD': 'weizoom',
+        'HOST': GAIA_DB,
+        'PORT': '',
+        'CONN_MAX_AGE': 100
+    }
 }
 
 
