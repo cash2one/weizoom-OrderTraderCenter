@@ -224,16 +224,16 @@ def process(data, recv_msg=None):
 								detail_data[key] = {"value" : product_names, "color" : "#173177"}
 				template_data['data'] = detail_data
 
-		# 获取微信用户的access_token
-		data_mpuser_info = {
-			'corp_id':corp_id,
-		}
-		resp_mpuser_info = Resource.use('gaia').get({
-			'resource': 'weixin.mpuser_access_token',
-			'data': data_mpuser_info
-		})
-		mpuser_access_token = resp_mpuser_info['data']['access_token']
-		access_token = FakeObject()
-		access_token.access_token = mpuser_access_token['access_token']
-		weixin_api = get_weixin_api(access_token)
-		weixin_api.send_template_message(template_data, True)
+	# 获取微信用户的access_token
+	data_mpuser_info = {
+		'corp_id':corp_id,
+	}
+	resp_mpuser_info = Resource.use('gaia').get({
+		'resource': 'weixin.mpuser_access_token',
+		'data': data_mpuser_info
+	})
+	mpuser_access_token = resp_mpuser_info['data']['access_token']
+	access_token = FakeObject()
+	access_token.access_token = mpuser_access_token['access_token']
+	weixin_api = get_weixin_api(access_token)
+	weixin_api.send_template_message(template_data, True)
