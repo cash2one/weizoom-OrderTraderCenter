@@ -334,40 +334,76 @@ def handler(data, recv_msg=None):
 					# 		#print customer_message
 					# 	else:
 					# 		customer_message = u'-'
-					tmp_order = [
-						delivery_bid, 
-						created_at, 
-						payment_time, 
-						supplier_name, 
-						name,
-						product_model,
-						origin_price,
-						count,
-						sales,
-						total_product_height,
-						pay_interface_type_code,
-						pay_money,
-						final_price,
-						weizoom_card_money,
-						postage, 
-						integral_money,
-						coupon_money,
-						coupon_name,
-						status_code,
-						buyer_name,
-						ship_name,
-						ship_tel,
-						ship_area,
-						ship_address,
-						leader_name,
-						leader_remark,
-						express_company_name_value,
-						express_number,
-						postage_time,
-						remark,
-						customer_message,
-						is_first_order,
-					]
+					if i==0:
+						tmp_order = [
+							delivery_bid, 
+							created_at, 
+							payment_time, 
+							supplier_name, 
+							name,
+							product_model,
+							origin_price,
+							count,
+							sales,
+							total_product_height,
+							pay_interface_type_code,
+							pay_money,
+							final_price,
+							weizoom_card_money,
+							postage, 
+							integral_money,
+							coupon_money,
+							coupon_name,
+							status_code,
+							buyer_name,
+							ship_name,
+							ship_tel,
+							ship_area,
+							ship_address,
+							leader_name,
+							leader_remark,
+							express_company_name_value,
+							express_number,
+							postage_time,
+							remark,
+							customer_message,
+							is_first_order,
+						]
+					else:
+						tmp_order = [
+							delivery_bid, 
+							created_at, 
+							payment_time, 
+							supplier_name, 
+							name,
+							product_model,
+							origin_price,
+							count,
+							sales,
+							total_product_height,
+							pay_interface_type_code,
+							u'-',
+                            u'-',
+                            u'-',
+                            u'-',
+                            u'-',
+                            u'-' if order['status'] == 1 and coupon_name else coupon_money,
+                            u'-' if order['status'] == 1 or not coupon_name else coupon_name,
+							status_code,
+							buyer_name,
+							ship_name,
+							ship_tel,
+							ship_area,
+							ship_address,
+							leader_name,
+							leader_remark,
+							express_company_name_value,
+							express_number,
+							postage_time,
+							remark,
+							customer_message,
+							is_first_order,
+						]
 
 					if mall_type:
 						#供货商相同只在第一列展示
@@ -389,7 +425,7 @@ def handler(data, recv_msg=None):
 						# tmp_order.append(u'采购成本')
 					table.write_row("A{}".format(tmp_line), tmp_order)
 					tmp_line += 1
-
+					i += 1
 					#统计赠品总量
 					if delivery_item['status_code'] != 'cancelled':
 						pass
