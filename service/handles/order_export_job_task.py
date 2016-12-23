@@ -72,7 +72,7 @@ def handler(data, recv_msg=None):
 	status_code_type = {
 		'created': u'待支付',
 		'cancelled': u'已取消',
-		'paid': u'已支付',
+		'paid': u'待发货',
 		'shipped': u'已发货',
 		'finished': u'已完成',
 		'refunding': u'退款中',
@@ -221,7 +221,7 @@ def handler(data, recv_msg=None):
 				leader_name = leader_info[0]
 				leader_remark = leader_info[1] if len(leader_info)==2 else '-'
 				#leader_remark = leader_info[1]
- 				express_company_name_value = delivery_item['express_company_name_value'] if delivery_item['with_logistics'] else '-'
+ 				express_company_name_value = delivery_item['express_company_name_text'] if delivery_item['with_logistics'] else '-'
 				express_number = delivery_item['express_number'] if delivery_item['with_logistics'] else '-'
 				postage_time = delivery_item['created_at'] if delivery_item['with_logistics'] else '-'
 
@@ -298,9 +298,9 @@ def handler(data, recv_msg=None):
 						extra_coupon_info = order['extra_coupon_info']
 
 						if extra_coupon_info:
-							coupon_name = '{}({})'.format(extra_coupon_info.get('bid', u'0'), extra_coupon_info.get(type, u'-'))
+							coupon_name = extra_coupon_info.get('name', u'无')
 						else:
-							coupon_name = ''
+							coupon_name = u'无'
 
 						#判断订单状态是否为已取消
 						if delivery_item['status_code'] == 'cancelled':
