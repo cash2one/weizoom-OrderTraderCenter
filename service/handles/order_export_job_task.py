@@ -246,7 +246,7 @@ def handler(data, recv_msg=None):
 				refund_integral_money = refunding_info['integral_money']
 				refund_money = refunding_info['cash']
 				refund_is_finished = refunding_info['finished']
-				
+				i = 0
 				for product in delivery_item['products']:
 					name = product['name']
 					origin_price = product['origin_price']
@@ -302,8 +302,8 @@ def handler(data, recv_msg=None):
 								coupon_name = extra_coupon_info['name'] + u'多品券'
 							elif extra_coupon_info.get['type'] == "all_products_coupon":
 								coupon_name = extra_coupon_info['name'] + u'通用券'
-						    else:
-						    	coupon_name = u'无'
+							else:
+								coupon_name = u'无'
 						else:
 							coupon_name = u'无'
 
