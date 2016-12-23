@@ -299,9 +299,9 @@ def handler(data, recv_msg=None):
 
 						if extra_coupon_info:
 							if extra_coupon_info['type'] == "multi_products_coupon":
-								coupon_name = extra_coupon_info['name'] + u'多品券'
+								coupon_name = extra_coupon_info['name'] + u'（多品券）'
 							elif extra_coupon_info['type'] == "all_products_coupon":
-								coupon_name = extra_coupon_info['name'] + u'通用券'
+								coupon_name = extra_coupon_info['name'] + u'（通用券）'
 							else:
 								coupon_name = u'无'
 						else:
