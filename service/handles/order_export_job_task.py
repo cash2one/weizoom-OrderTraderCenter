@@ -130,7 +130,7 @@ def handler(data, recv_msg=None):
 		page_info = resp['data']['page_info']
 		job.count=page_info.get('object_count',0)
 		job.save()
-		
+		i = 0
 		for order in orders:
 			
 			#统计信息
@@ -231,7 +231,7 @@ def handler(data, recv_msg=None):
 				refund_integral_money = refunding_info['integral_money']
 				refund_money = refunding_info['cash']
 				refund_is_finished = refunding_info['finished']
-				i = 0
+				
 				for product in delivery_item['products']:
 					name = product['name']
 					origin_price = product['origin_price']
