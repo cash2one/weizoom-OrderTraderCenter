@@ -200,9 +200,8 @@ def handler(data, recv_msg=None):
 			total_order_count += 1
 
 			supplier_list = []
-			i = 0
+			n = 0
 			for delivery_item in order['delivery_items']:
-
 				delivery_bid = delivery_item['bid']
 
 				#供货商信息
@@ -220,7 +219,6 @@ def handler(data, recv_msg=None):
 					leader_info = ['-','-']
 				leader_name = leader_info[0]
 				leader_remark = leader_info[1] if len(leader_info)==2 else '-'
-				#leader_remark = leader_info[1]
  				express_company_name_value = delivery_item['express_company_name_text'] if delivery_item['with_logistics'] else '-'
 				express_number = delivery_item['express_number'] if delivery_item['with_logistics'] else '-'
 				postage_time = delivery_item['created_at'] if delivery_item['with_logistics'] else '-'
@@ -272,7 +270,7 @@ def handler(data, recv_msg=None):
 					payment_time = u'-'
 
 					#某些信息只在第一个出货单上显示
-					if i == 0:
+					if n == 0:
 						pay_money = order['pay_money']
 						final_price = order['final_price']
 						weizoom_card_money = order['weizoom_card_money']
@@ -294,10 +292,15 @@ def handler(data, recv_msg=None):
 
 						#判断订单状态是否为已取消
 						if delivery_item['status_code'] == 'cancelled':
+							pay_money = u'0'
+							final_price = u'0'
+							weizoom_card_money = u'0'
 							payment_time = u'-'
 							coupon_money = u'0'
 							coupon_name = u'无'
 						if delivery_item['status_code'] == 'created':
+							pay_money = u'0'
+							final_price = u'0'
 							weizoom_card_money = u'0'
 							integral_money = u'0'
 							payment_time = u'-'
@@ -310,7 +313,7 @@ def handler(data, recv_msg=None):
 					#用户备注（留言）处理
 					customer_message = delivery_item['customer_message'] if delivery_item['customer_message'] else u'-'
 
-					if i==0:
+					if n==0:
 						tmp_order = [
 							delivery_bid, 
 							created_at, 
@@ -394,14 +397,10 @@ def handler(data, recv_msg=None):
 						else:
 							for i in xrange(4):
 								tmp_order.insert(19,'-')
-					# if has_supplier:
-						# tmp_order.append(u'-' if 0.0 == product.purchase_price else product.purchase_price)
-						# tmp_order.append(u'-'  if 0.0 ==product.purchase_price else product.purchase_price*relation.number)
-						# tmp_order.append(u'采购价')
-						# tmp_order.append(u'采购成本')
+
 					table.write_row("A{}".format(tmp_line), tmp_order)
 					tmp_line += 1
-					i += 1
+					n += 1
 					#统计赠品总量
 					if delivery_item['status_code'] != 'cancelled':
 						pass
