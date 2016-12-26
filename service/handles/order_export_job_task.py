@@ -130,7 +130,7 @@ def handler(data, recv_msg=None):
 		page_info = resp['data']['page_info']
 		job.count=page_info.get('object_count',0)
 		job.save()
-		i = 0
+		
 		for order in orders:
 			
 			#统计信息
@@ -200,6 +200,7 @@ def handler(data, recv_msg=None):
 			total_order_count += 1
 
 			supplier_list = []
+			i = 0
 			for delivery_item in order['delivery_items']:
 
 				delivery_bid = delivery_item['bid']
@@ -240,7 +241,6 @@ def handler(data, recv_msg=None):
 					sales= product['sale_price']*product['count']
 					# 商品总重量
 					total_product_height = int(product['weight'] or 0)*product['count']
-
 
 					#赠品
 					promotion_info = product['promotion_info']
