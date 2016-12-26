@@ -200,7 +200,6 @@ def handler(data, recv_msg=None):
 			total_order_count += 1
 
 			supplier_list = []
-			order_count = 0
 			for delivery_item in order['delivery_items']:
 
 				delivery_bid = delivery_item['bid']
@@ -225,22 +224,8 @@ def handler(data, recv_msg=None):
 				express_number = delivery_item['express_number'] if delivery_item['with_logistics'] else '-'
 				postage_time = delivery_item['created_at'] if delivery_item['with_logistics'] else '-'
 
-				#缺的字段  '商品重量' '采购价' '赠品'
-
-				#详细物流信息
-				# express_details = delivery_item['express_details']
-				# if express_details:
-				# 	print "=============",express_details
-				# 	1/0
-				# ?采购价（不确定）
-				# total_purchase_price = order['total_purchase_price']
-				# if total_purchase_price:
-				# 	print ">>>>>>>>>>>>>>>>>>>>",total_purchase_price
-				# 	1/0
-
 				#出货单退款信息
 				refunding_info = delivery_item['refunding_info']
-
 				refund_weizoom_card_money = refunding_info['weizoom_card_money']
 				refund_coupon_money = refunding_info['coupon_money']
 				refund_integral_money = refunding_info['integral_money']
@@ -287,7 +272,7 @@ def handler(data, recv_msg=None):
 					payment_time = u'-'
 
 					#某些信息只在第一个出货单上显示
-					if order_count == 0:
+					if i == 0:
 						pay_money = order['pay_money']
 						final_price = order['final_price']
 						weizoom_card_money = order['weizoom_card_money']
@@ -309,8 +294,7 @@ def handler(data, recv_msg=None):
 
 						#判断订单状态是否为已取消
 						if delivery_item['status_code'] == 'cancelled':
-							payment_time = '-'
-							# final_price = u'0'
+							payment_time = u'-'
 							coupon_money = u'0'
 							coupon_name = u'无'
 						if delivery_item['status_code'] == 'created':
@@ -325,15 +309,7 @@ def handler(data, recv_msg=None):
 
 					#用户备注（留言）处理
 					customer_message = delivery_item['customer_message'] if delivery_item['customer_message'] else u'-'
-					# if order['customer_message'] != '{}' and order['customer_message'] != '':
-					# 	de_bid = delivery_bid.split('^')[1]
-					# 	dev_customer_message = json.loads(order['customer_message'])
-					# 	if de_bid in dev_customer_message:
-					# 		#print dev_customer_message,de_bid
-					# 		customer_message = dev_customer_message.get(de_bid, u'-')['customer_message']
-					# 		#print customer_message
-					# 	else:
-					# 		customer_message = u'-'
+
 					if i==0:
 						tmp_order = [
 							delivery_bid, 
@@ -387,8 +363,8 @@ def handler(data, recv_msg=None):
                             u'-',
                             u'-',
                             u'-',
-                            u'-' if order['status_code'] == 'created' and coupon_name else coupon_money,
-                            u'-' if order['status_code'] == 'created' or not coupon_name else coupon_name,
+                            u'-',
+                            u'-',
 							status_code,
 							buyer_name,
 							ship_name,
@@ -429,7 +405,6 @@ def handler(data, recv_msg=None):
 					#统计赠品总量
 					if delivery_item['status_code'] != 'cancelled':
 						pass
-				order_count += 1
 		totals = [
 			u'总计',
 			u'订单量:{}'.format(total_order_count),
