@@ -118,9 +118,9 @@ if 'deploy' == MODE:
     MNS_ACCESS_KEY_ID = 'LTAICKQ4rQBofAhF'
     MNS_ACCESS_KEY_SECRET = 'bPKU71c0cfrui4bWgGPO96tLiOJ0PZ'
     # 华北2
-    MNS_ENDPOINT = 'http://1615750970594173.mns.cn-beijing.aliyuncs.com/'
+    MNS_ENDPOINT = 'http://1615750970594173.mns.cn-hangzhou.aliyuncs.com/'
     MNS_SECURITY_TOKEN = ''
-    SUBSCRIBE_QUEUE_NAME = 'test-queue'
+    SUBSCRIBE_QUEUE_NAME = 'order-trade-center'
 else:
     # 测试环境
     MNS_ACCESS_KEY_ID = 'LTAICKQ4rQBofAhF'
