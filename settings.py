@@ -7,9 +7,10 @@ from eaglet.utils.resource_client import Resource
 
 PROJECT_HOME = os.path.dirname(os.path.abspath(__file__))
 
-MODE = 'develop'
+MODE = os.environ.get('_SERVICE_MODE', 'develop')
 SERVICE_NAME = 'order_trade_center'
-GAIA_DB = os.environ.get('GAIA_DB', None) or 'db.dev.com'
+DB_HOST = os.environ.get('DB_HOST', 'db.dev.com')
+DB_PORT = os.environ.get('DB_PORT', '3306')
 
 DATABASES = {
     'default': {
@@ -18,8 +19,8 @@ DATABASES = {
         'NAME': 'weapp',
         'USER': 'weapp',
         'PASSWORD': 'weizoom',
-        'HOST': GAIA_DB,
-        'PORT': '',
+        'HOST': DB_HOST,
+        'PORT': DB_PORT,
         'CONN_MAX_AGE': 100
     }
 }
