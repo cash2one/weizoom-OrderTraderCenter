@@ -5,6 +5,7 @@ import logging
 
 from eaglet.utils.resource_client import Resource
 
+DEBUG = True
 PROJECT_HOME = os.path.dirname(os.path.abspath(__file__))
 
 MODE = 'develop'
@@ -67,14 +68,9 @@ else:
         level=logging.INFO
     )
 
-if MODE == "deploy":
-    DEBUG = False
-else:
-    DEBUG = True
-
 
 #缓存相关配置
-REDIS_HOST = os.environ.get('_REDIS_HOST', 'redis.weapp.com')
+REDIS_HOST = 'redis.weapp.com'
 REDIS_PORT = 6379
 REDIS_CACHES_DB = 1
 REDIS_QUEUE_DB = 8
@@ -117,9 +113,21 @@ MAIL_NOTIFY_ACCOUNT_SMTP = u'smtp.dm.aliyun.com'
 
 H5_DOMAIN = 'h5.weapp.com'
 
-MNS_ACCESS_KEY_ID = os.environ.get('MNS_ACCESS_KEY_ID', 'LTAICKQ4rQBofAhF')
-MNS_ACCESS_KEY_SECRET = os.environ.get('MNS_ACCESS_KEY_SECRET', 'bPKU71c0cfrui4bWgGPO96tLiOJ0PZ')
-MNS_ENDPOINT = os.environ.get('MNS_ENDPOINT', 'https://1615750970594173.mns.cn-beijing.aliyuncs.com/')
-MNS_SECURITY_TOKEN = os.environ.get('MNS_SECURITY_TOKEN', '')
+if 'deploy' == MODE:
+    # 正式环境
+    MNS_ACCESS_KEY_ID = 'LTAICKQ4rQBofAhF'
+    MNS_ACCESS_KEY_SECRET = 'bPKU71c0cfrui4bWgGPO96tLiOJ0PZ'
+    # 华北2
+    MNS_ENDPOINT = 'http://1615750970594173.mns.cn-hangzhou.aliyuncs.com/'
+    MNS_SECURITY_TOKEN = ''
+    SUBSCRIBE_QUEUE_NAME = 'order-trade-center'
+else:
+    # 测试环境
+    MNS_ACCESS_KEY_ID = 'LTAICKQ4rQBofAhF'
+    MNS_ACCESS_KEY_SECRET = 'bPKU71c0cfrui4bWgGPO96tLiOJ0PZ'
+    # 华北2
+    MNS_ENDPOINT = 'http://1615750970594173.mns.cn-beijing.aliyuncs.com/'
+    MNS_SECURITY_TOKEN = ''
+    SUBSCRIBE_QUEUE_NAME = 'test-order-trade-center'
 
 Resource.configure({"service_map": {'gaia': 'gaia@inner'}})
