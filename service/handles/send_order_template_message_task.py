@@ -21,6 +21,7 @@ from eaglet.core.wxapi import get_weixin_api
 from order_trade_center_conf import TOPIC
 from service.handler_register import register
 from eaglet.utils.resource_client import Resource
+import datetime
 
 TEMPLATE_DB_TITLE2TMS_NAME = {
 	u"TM00247-购买成功通知": u"购买成功通知",
