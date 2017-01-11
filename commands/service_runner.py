@@ -106,7 +106,7 @@ class Command(BaseCommand):
 					message = {
 						'message_id': recv_msg.message_id,
 						'message_body_md5': '',
-						'data': args,
+						'data': data,
 						'topic_name': '',
 						'msg_name': message_name,
 						'handel_success': handle_success,
@@ -118,7 +118,7 @@ class Command(BaseCommand):
 					message = {
 						'message_id': recv_msg.message_id,
 						'message_body_md5': '',
-						'data': args,
+						'data': data,
 						'topic_name': '',
 						'msg_name': message_name,
 						'handel_success': handle_success
