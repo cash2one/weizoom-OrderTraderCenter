@@ -127,7 +127,7 @@ def process(data, recv_msg=None):
 								value = u'￥%s［实际付款］' % order.get(attr,'')
 								detail_data[key] = {"value" : value, "color" : "#173177"}
 							elif attr == 'payment_time':
-								dt = datetime.now()
+								dt = datetime.datetime.now()
 								payment_time = dt.strftime('%Y-%m-%d %H:%M:%S')
 								detail_data[key] = {"value" : payment_time, "color" : "#173177"}
 							else:
@@ -208,7 +208,7 @@ def process(data, recv_msg=None):
 								value = u'￥%s［实际付款］' % order.get(attr,'')
 								detail_data[key] = {"value" : value, "color" : "#173177"}
 							elif attr == 'payment_time':
-								dt = datetime.now()
+								dt = datetime.datetime.now()
 								payment_time = dt.strftime('%Y-%m-%d %H:%M:%S')
 								detail_data[key] = {"value" : payment_time, "color" : "#173177"}
 							else:
