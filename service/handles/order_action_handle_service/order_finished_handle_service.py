@@ -51,12 +51,12 @@ def process(data, recv_msg=None):
 	# msgutil.send_message(topic_name, 'send_order_email_task', data)
 
 	# 发送模板消息
-	topic_name = TOPIC['base_service']
-	data = {
-		"order_id": order_id,
-		"corp_id": corp_id
-	}
-	msgutil.send_message(topic_name, 'send_order_template_message_task', data)
+	# topic_name = TOPIC['base_service']
+	# data = {
+	# 	"order_id": order_id,
+	# 	"corp_id": corp_id
+	# }
+	# msgutil.send_message(topic_name, 'send_order_template_message_task', data)
 
 	# member = corp.member_repository.get_member_by_id(order.member_info['id'])
 	#
