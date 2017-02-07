@@ -46,8 +46,6 @@ def process(data, recv_msg=None):
 	"""
 	发货通知：测试的时候需准备测试数据，在页面上点发货即可
 	"""
-	# 暂时关闭模板消息
-	return
 	corp_id = data['corp_id']
 	to_status = data['to_status']
 	topic = TOPIC['template_message']
