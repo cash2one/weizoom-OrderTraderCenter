@@ -12,15 +12,12 @@ import json
 import re
 
 from eaglet.utils.resource_client import Resource
-from eaglet.core import watchdog, upyun_util
+from eaglet.core import upyun_util
 from eaglet.core.exceptionutil import unicode_full_stack
-
-from django.conf import settings
 
 import logging
 from datetime import datetime
 from service.handler_register import register
-from db import models
 
 COUNT_PER_PAGE = 100
 
@@ -30,6 +27,8 @@ def handler(data, recv_msg=None):
 	"""
 	订单导出
 	"""
+	from db import models
+
 	logging.info("processing message data: {}".format(data))
 	job_id = data['job_id']
 
