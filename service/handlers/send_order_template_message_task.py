@@ -45,6 +45,10 @@ class FakeObject(object):
 def process(data, recv_msg=None):
 	"""
 	发货通知：测试的时候需准备测试数据，在页面上点发货即可
+	注意：
+		1、发送微信模板消息的时候，需要确认代码所在的服务器地址在微信管理者页面的
+		   白名单资质中存在该地址，否则会报错“61004  errmsg:access clientip is not registered requestIP”
+		2、
 	"""
 	
 	corp_id = data['corp_id']
@@ -134,14 +138,14 @@ def process(data, recv_msg=None):
 							else:
 								detail_data[key] = {"value" : order.get(attr,''), "color" : "#173177"}
 						else:
-							order_products = order['delivery_items'][0]['products']
+							delivery_item_products = delivery_item['products']
 							if 'number' == attr:
-								number = sum([product['count'] for product in order_products])
+								number = sum([product['count'] for product in delivery_item_products])
 								detail_data[key] = {"value" : number, "color" : "#173177"}
 
 							if 'product_name' == attr:
-								products = order_products
-								product_names =','.join([p['name'] for p in products])
+								product_names =','.join([p['name'] for p in delivery_item_products])
+								print '-================================',product_names
 								detail_data[key] = {"value" : product_names, "color" : "#173177"}
 				template_data['data'] = detail_data
 	if type == 'order':
