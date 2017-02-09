@@ -1,3 +1,8 @@
+
+
+# 现在order_trade_center不支持水平扩展
+
+
 # 用Python开发消息服务的codebase（基于阿里MNS消息服务）
 
 # 消息Service相关概念
