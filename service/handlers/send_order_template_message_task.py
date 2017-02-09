@@ -118,6 +118,7 @@ def process(data, recv_msg=None):
 				order['express_company_name'] =  u'%s快递' % delivery_item['express_company_name_text']
 				order['order_id'] = order.get('bid','')
 				order['ship_address'] = order.get('ship_area_text','')+order.get('ship_address','')
+				# orderProductPrice:final_price,orderProductName:product_name,orderAddress:ship_address,orderName:order_id
 				if attribute:
 					attribute_data_list = attribute.split(',')
 					for attribute_datas in attribute_data_list:
@@ -145,7 +146,6 @@ def process(data, recv_msg=None):
 
 							if 'product_name' == attr:
 								product_names =','.join([p['name'] for p in delivery_item_products])
-								print '-================================',product_names
 								detail_data[key] = {"value" : product_names, "color" : "#173177"}
 				template_data['data'] = detail_data
 	if type == 'order':
