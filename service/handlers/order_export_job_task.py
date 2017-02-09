@@ -232,7 +232,7 @@ def handler(data, recv_msg=None):
 				
 				for product in delivery_item['products']:
 					name = product['name']
-					origin_price = product['origin_price']
+					origin_price = product['sale_price']
 					count = product['count']
 					# 销售额
 					sales= product['sale_price']*product['count']
@@ -378,7 +378,7 @@ def handler(data, recv_msg=None):
 							express_company_name_value,
 							express_number,
 							postage_time,
-							remark,
+							u'-',
 							customer_message,
 							is_first_order,
 						]
