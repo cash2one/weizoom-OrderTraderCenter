@@ -126,11 +126,11 @@ def process(data, recv_msg=None):
 						key = attribute_data[0].strip()
 						attr = attribute_data[1].strip()
 						if attr == 'final_price':
-							value = u'￥%s［实际付款］' % order.get(attr,'0.00')
+							value = u'￥%s［实际付款］' % ( order.get(attr) if order.get(attr) else '0.00')
 							detail_data[key] = {"value" : value, "color" : "#173177"}
 						elif order.get(attr,''):
 							if attr == 'final_price':
-								value = u'￥%s［实际付款］' % order.get(attr,'0.00')
+								value = u'￥%s［实际付款］' % ( order.get(attr) if order.get(attr) else '0.00')
 								detail_data[key] = {"value" : value, "color" : "#173177"}
 							elif attr == 'payment_time':
 								dt = datetime.datetime.now()
