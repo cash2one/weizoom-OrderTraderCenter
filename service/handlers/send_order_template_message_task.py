@@ -226,6 +226,7 @@ def process(data, recv_msg=None):
 							if 'number' == attr:
 								number = sum([product['count'] for product in order_products])
 								detail_data[key] = {"value" : number, "color" : "#173177"}
+								
 							if 'product_name' == attr:
 								product_names =','.join([p['name'] for p in order_products])
 								detail_data[key] = {"value" : product_names, "color" : "#173177"}
