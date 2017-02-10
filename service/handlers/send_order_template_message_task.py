@@ -221,7 +221,8 @@ def process(data, recv_msg=None):
 								detail_data[key] = {"value" : order.get(attr,''), "color" : "#173177"}
 						else:
 							for delivery_item in order['delivery_items']:
-								order_products.append(delivery_item['products'])
+								for product in delivery_item['products']:
+									order_products.append(product)
 							if 'number' == attr:
 								number = sum([product['count'] for product in order_products])
 								detail_data[key] = {"value" : number, "color" : "#173177"}
