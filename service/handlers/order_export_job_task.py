@@ -354,7 +354,7 @@ def handler(data, recv_msg=None):
 							payment_time, 
 							supplier_name, 
 							name,
-							product_model,
+							product_model if product_model else '-',
 							origin_price,
 							count,
 							sales,
