@@ -206,7 +206,7 @@ def handler(data, recv_msg=None):
 				#供货商信息
 				if delivery_item['supplier_info']:
 					supplier_info = delivery_item['supplier_info']
-					supplier_name = supplier_info['name']
+					supplier_name = supplier_info['name'] if supplier_info['name'] else '-'
 				
 				#订单状态
 				status_code = status_code_type.get(delivery_item['status_code'], u'失败')
@@ -231,7 +231,7 @@ def handler(data, recv_msg=None):
 				refund_is_finished = refunding_info['finished']
 				
 				for product in delivery_item['products']:
-					name = product['name']
+					name = product['name'] if product['name'] else '-'
 					origin_price = product['sale_price']
 					count = product['count']
 					# 销售额
@@ -319,7 +319,7 @@ def handler(data, recv_msg=None):
 							payment_time, 
 							supplier_name, 
 							name,
-							product_model,
+							product_model if product_model else '-',
 							origin_price,
 							count,
 							sales,
