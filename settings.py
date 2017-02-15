@@ -113,6 +113,8 @@ MAIL_NOTIFY_ACCOUNT_SMTP = u'smtp.dm.aliyun.com'
 
 H5_DOMAIN = 'h5.weapp.com'
 
+MESSAGE_BROKER = os.environ.get('_MESSAGE_BROKER', 'redis') #you can use 'mns' for production
+
 if 'deploy' == MODE:
     # 正式环境
     MNS_ACCESS_KEY_ID = 'LTAICKQ4rQBofAhF'
