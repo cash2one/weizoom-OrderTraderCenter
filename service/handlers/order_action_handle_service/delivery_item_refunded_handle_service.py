@@ -35,16 +35,16 @@ def process(data, recv_msg=None):
 	}
 	msgutil.send_message(topic_name, 'send_delivery_item_phone_message_task', data)
 
-	# 释放出货单资源
-	Resource.use('gaia').put({
-		"resource": 'order.released_delivery_item',
-		"data": {
-			'corp_id': corp_id,
-			'id': delivery_item_id,
-			'from_status': from_status,
-			'to_status': to_status
-		}
-	})
+	# # 释放出货单资源
+	# Resource.use('gaia').put({
+	# 	"resource": 'order.released_delivery_item',
+	# 	"data": {
+	# 		'corp_id': corp_id,
+	# 		'id': delivery_item_id,
+	# 		'from_status': from_status,
+	# 		'to_status': to_status
+	# 	}
+	# })
 # for product in delivery_item_data['products']:
 #
 # 	# 回退库存

@@ -63,10 +63,10 @@ def process(data, recv_msg=None):
 	# member.increase_integral_after_finish_order(order)  # 对应购买商品返积分功能
 	# member.update_pay_info(order, from_status, to_status)
 	# MemberSpread.process_order_from_spread({'order_id': order.id})
-	utils.update_member_pay_info(corp_id, order_id, from_status, to_status)
-	utils.update_member_order_integral(corp_id, order_id, from_status, to_status)
-	utils.update_member_order_spread_integral(corp_id, order_id, from_status, to_status)
-	utils.update_member_order_grade(corp_id, order_id)
+	# utils.update_member_pay_info(corp_id, order_id, from_status, to_status)
+	# utils.update_member_order_integral(corp_id, order_id, from_status, to_status)
+	# utils.update_member_order_spread_integral(corp_id, order_id, from_status, to_status)
+	# utils.update_member_order_grade(corp_id, order_id)
 
 	# # 更新红包引入消费金额的数据
 	# if order.coupon_id and promotion_models.RedEnvelopeParticipences.select().dj_where(coupon_id=order.coupon_id,
