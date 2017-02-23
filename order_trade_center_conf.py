@@ -1,5 +1,5 @@
 # coding: utf8
-
+import os
 # 消息队列topic
 TOPIC = {
 
