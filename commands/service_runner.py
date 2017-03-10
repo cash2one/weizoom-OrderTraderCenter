@@ -102,26 +102,19 @@ class Command(BaseCommand):
 				time.sleep(SLEEP_SECONDS)
 				continue
 			except Exception as e:
-				if handler_func:
-					message = {
-						'message_id': recv_msg.message_id,
-						'message_body_md5': '',
-						'data': data,
-						'topic_name': '',
-						'msg_name': message_name,
-						'handel_success': handle_success,
-						'traceback': unicode_full_stack()
-					}
-					watchdog.info(message, log_type='MNS_RECEIVE_LOG')
+				print u"Exception: {}".format(unicode_full_stack())
 			finally:
 				if handler_func:
 					message = {
 						'message_id': recv_msg.message_id,
 						'message_body_md5': '',
-						'data': data,
-						'topic_name': '',
+						'data': args,
+						'queue_name': settings.SUBSCRIBE_QUEUE_NAME,
 						'msg_name': message_name,
 						'handel_success': handle_success
 					}
-					watchdog.info(message, log_type='MNS_RECEIVE_LOG')
+					if handle_success:
+						watchdog.info(message, log_type='MNS_RECEIVE_LOG')
+					else:
+						watchdog.critical(message, log_type='MNS_RECEIVE_LOG')
 		return
