@@ -6,6 +6,6 @@ topic_name = 'test-topic'
 
 data = {
 	"delivery_item_id": 100,
-	"delivery_item_bid": 'xx121212x'
+	"delivery_item_bid": '888888888'
 }
 msgutil.send_message(topic_name, 'test_send', data)
