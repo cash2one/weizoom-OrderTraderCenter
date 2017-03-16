@@ -122,6 +122,21 @@ class Command(BaseCommand):
 					except:
 						traceback = unicode_full_stack()
 						logging.info(u"Service Exception: {}".format(traceback))
+						message = {
+							'message_id': recv_msg.message_id,
+							'message_body_md5': '',
+							'data': message_data,
+							'queue_name': settings.SUBSCRIBE_QUEUE_NAME,
+							'msg_name': message_name,
+							'handel_success': handle_success,
+						}
+						uncaught_exception_data = get_uncaught_exception_data(None, message)
+						if settings.MODE == 'deploy':
+							watchdog.critical(uncaught_exception_data, 'Uncaught_Exception')
+						else:
+							print('**********Uncaught_Exception**********')
+							print(json.dumps(uncaught_exception_data, indent=2))
+							print('**********Uncaught_Exception**********\n')
 				else:
 					logging.warn(u"Warn: no such service found : {}".format(message_name))
 					try:
@@ -141,8 +156,8 @@ class Command(BaseCommand):
 				time.sleep(SLEEP_SECONDS)
 				continue
 			except Exception as e:
-				pass
-
+				traceback = unicode_full_stack()
+				logging.info(u"Service Exception: {}".format(traceback))
 			try:
 				if handler_func:
 					message = {
@@ -158,13 +173,6 @@ class Command(BaseCommand):
 					else:
 						watchdog.critical(message, log_type='MNS_RECEIVE_LOG')
 
-						uncaught_exception_data = get_uncaught_exception_data(None, message)
-						if settings.MODE == 'deploy':
-							watchdog.critical(uncaught_exception_data, 'Uncaught_Exception')
-						else:
-							print('**********Uncaught_Exception**********')
-							print(json.dumps(uncaught_exception_data, indent=2))
-							print('**********Uncaught_Exception**********\n')
 			except:
 				print(unicode_full_stack())
 
