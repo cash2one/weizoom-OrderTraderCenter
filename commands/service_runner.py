@@ -141,29 +141,31 @@ class Command(BaseCommand):
 				time.sleep(SLEEP_SECONDS)
 				continue
 			except Exception as e:
-				try:
-					if handler_func:
-						message = {
-							'message_id': recv_msg.message_id,
-							'message_body_md5': '',
-							'data': message_data,
-							'queue_name': settings.SUBSCRIBE_QUEUE_NAME,
-							'msg_name': message_name,
-							'handel_success': handle_success,
-						}
-						if handle_success:
-							watchdog.info(message, log_type='MNS_RECEIVE_LOG')
-						else:
-							watchdog.critical(message, log_type='MNS_RECEIVE_LOG')
+				pass
 
-							uncaught_exception_data = get_uncaught_exception_data(None, message)
-							if settings.MODE == 'deploy':
-								watchdog.critical(uncaught_exception_data, 'Uncaught_Exception')
-							else:
-								print('**********Uncaught_Exception**********')
-								print(json.dumps(uncaught_exception_data, indent=2))
-								print('**********Uncaught_Exception**********\n')
-				except:
-					print(unicode_full_stack())
+			try:
+				if handler_func:
+					message = {
+						'message_id': recv_msg.message_id,
+						'message_body_md5': '',
+						'data': message_data,
+						'queue_name': settings.SUBSCRIBE_QUEUE_NAME,
+						'msg_name': message_name,
+						'handel_success': handle_success,
+					}
+					if handle_success:
+						watchdog.info(message, log_type='MNS_RECEIVE_LOG')
+					else:
+						watchdog.critical(message, log_type='MNS_RECEIVE_LOG')
+
+						uncaught_exception_data = get_uncaught_exception_data(None, message)
+						if settings.MODE == 'deploy':
+							watchdog.critical(uncaught_exception_data, 'Uncaught_Exception')
+						else:
+							print('**********Uncaught_Exception**********')
+							print(json.dumps(uncaught_exception_data, indent=2))
+							print('**********Uncaught_Exception**********\n')
+			except:
+				print(unicode_full_stack())
 
 		return
