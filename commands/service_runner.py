@@ -6,7 +6,7 @@
 
 @author Victor
 """
-
+from eaglet.core.debug import get_uncaught_exception_data
 from eaglet.utils.command import BaseCommand
 from eaglet.core import watchdog
 #from eaglet.core.cache import utils as cache_util
@@ -97,7 +97,7 @@ class Command(BaseCommand):
 			handler_func = None
 			handle_success = False
 			#读取消息
-			traceback = ''
+			message_name = ''
 			try:
 				recv_msg = queue.receive_message(WAIT_SECONDS)
 				logging.info("Receive Message Succeed! ReceiptHandle:%s MessageBody:%s MessageID:%s" % (recv_msg.receipt_handle, recv_msg.message_body, recv_msg.message_id))
@@ -141,21 +141,29 @@ class Command(BaseCommand):
 				time.sleep(SLEEP_SECONDS)
 				continue
 			except Exception as e:
-				traceback = unicode_full_stack()
-				print u"Exception: {}".format(traceback)
-			finally:
-				if handler_func:
-					message = {
-						'message_id': recv_msg.message_id,
-						'message_body_md5': '',
-						'data': message_data,
-						'queue_name': settings.SUBSCRIBE_QUEUE_NAME,
-						'msg_name': message_name,
-						'handel_success': handle_success,
-						'traceback': traceback
-					}
-					if handle_success:
-						watchdog.info(message, log_type='MNS_RECEIVE_LOG')
-					else:
-						watchdog.critical(message, log_type='MNS_RECEIVE_LOG')
+				try:
+					if handler_func:
+						message = {
+							'message_id': recv_msg.message_id,
+							'message_body_md5': '',
+							'data': message_data,
+							'queue_name': settings.SUBSCRIBE_QUEUE_NAME,
+							'msg_name': message_name,
+							'handel_success': handle_success,
+						}
+						if handle_success:
+							watchdog.info(message, log_type='MNS_RECEIVE_LOG')
+						else:
+							watchdog.critical(message, log_type='MNS_RECEIVE_LOG')
+
+							uncaught_exception_data = get_uncaught_exception_data(None, message)
+							if settings.MODE == 'deploy':
+								watchdog.critical(uncaught_exception_data, 'Uncaught_Exception')
+							else:
+								print('**********Uncaught_Exception**********')
+								print(json.dumps(uncaught_exception_data, indent=2))
+								print('**********Uncaught_Exception**********\n')
+				except:
+					print(unicode_full_stack())
+
 		return
